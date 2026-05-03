@@ -131,6 +131,26 @@
     return "https://lh3.googleusercontent.com/aida-public/AB6AXuA_KhMWlEiqFZvJLfZ18JU2pntwt5Nm-SPrvucPzCCxNUoe73N5ox13JLV9zWmFLpiCVHeOek9801Nh76NERlspf3vrCQKY1dvZThix8acrheD7XDkraZhpUWlXucHfv6LSI6uRroBcSx7_VF0hGefxTEumKAsboMT1FxNfvp9l0qa6-ylo-HVl2P9BPdFCJrrJtsnpS2HJdWjtmRqOPLPpWkC1kLKtvIIzU-RYStHt9QAplSuKbBD9Dpq1AEUMTMkUjB95R9hSes8b";
   }
 
+  function uniqueListingKey(item) {
+    return [
+      item.property_name || item.property || "",
+      item.available_from || item.from || "",
+      item.available_to || item.to || "",
+      item.nightly_price || item.price || "",
+      item.status || "",
+    ].map((part) => String(part).trim().toLowerCase()).join("|");
+  }
+
+  function dedupeListings(items) {
+    const seen = new Set();
+    return (items || []).filter((item) => {
+      const key = uniqueListingKey(item);
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
   async function uploadListingPhoto(file, userId) {
     if (!db || !file || !file.size) return null;
     if (!file.type.startsWith("image/")) {
@@ -169,7 +189,7 @@
         .select("property_name, available_from, available_to, nightly_price, status")
         .order("updated_at", { ascending: false })
         .limit(20);
-      saved = (data || []).map((item) => ({
+      saved = dedupeListings(data || []).map((item) => ({
         property: item.property_name,
         from: item.available_from,
         to: item.available_to,
@@ -395,6 +415,7 @@
       data = fallback.data;
       error = fallback.error;
     }
+    data = dedupeListings(data);
     if (error || !data || !data.length) return;
     publicList.innerHTML = data.map((item) => (
       `<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-surface-container group cursor-pointer" onclick="window.location.href='property.html'">` +
