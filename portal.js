@@ -169,6 +169,10 @@
     });
   }
 
+  function isMissingImageColumnError(error) {
+    return Boolean(error && error.message && error.message.includes("image_url"));
+  }
+
   async function uploadListingPhoto(file, userId) {
     if (!db || !file || !file.size) return null;
     if (!file.type.startsWith("image/")) {
@@ -266,12 +270,19 @@
             image_urls: imageUrls,
           });
           if (error) {
-            if (error.message && error.message.includes("image_url")) {
+            if (isMissingImageColumnError(error) && imageUrls.length) {
+              if (saveMessage) {
+                saveMessage.textContent = "Pictures need one database setup: add image_url and image_urls columns in Supabase.";
+                saveMessage.classList.remove("hidden");
+              }
+              return;
+            }
+            if (isMissingImageColumnError(error)) {
               const { error: fallbackError } = await db.from("owner_availability").insert(listingPayload);
               if (!fallbackError) {
                 await renderAvailability();
                 if (saveMessage) {
-                  saveMessage.textContent = "Listing saved without pictures. Add the image columns in Supabase to save photos.";
+                  saveMessage.textContent = "Listing saved. Add the image columns in Supabase before posting pictures.";
                   saveMessage.classList.remove("hidden");
                   setTimeout(() => saveMessage.classList.add("hidden"), 3500);
                 }
