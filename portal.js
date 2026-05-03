@@ -147,6 +147,19 @@
     return data.publicUrl;
   }
 
+  async function uploadListingPhotos(files, userId) {
+    const selected = Array.from(files || []).filter((file) => file && file.size);
+    if (!selected.length) return [];
+    if (selected.length > 4) {
+      throw new Error("Please choose 4 pictures or fewer.");
+    }
+    const urls = [];
+    for (const file of selected) {
+      urls.push(await uploadListingPhoto(file, userId));
+    }
+    return urls;
+  }
+
   async function renderAvailability() {
     if (!availabilityList) return;
     let saved = JSON.parse(localStorage.getItem("ethiostayAvailability") || "[]");
@@ -187,13 +200,13 @@
         price: String(data.get("price") || ""),
         status: String(data.get("status") || "Available"),
       };
-      const photo = data.get("photo");
+      const photosInput = availabilityForm.querySelector("input[name='photos']");
       if (db) {
         const { data: authData } = await db.auth.getUser();
         if (authData.user) {
-          let imageUrl = null;
+          let imageUrls = [];
           try {
-            imageUrl = await uploadListingPhoto(photo, authData.user.id);
+            imageUrls = await uploadListingPhotos(photosInput ? photosInput.files : [], authData.user.id);
           } catch (error) {
             if (saveMessage) {
               saveMessage.textContent = error.message;
@@ -208,7 +221,8 @@
             available_to: next.to,
             nightly_price: next.price,
             status: next.status,
-            image_url: imageUrl,
+            image_url: imageUrls[0] || null,
+            image_urls: imageUrls,
           });
           if (error) {
             if (saveMessage) {
@@ -351,7 +365,7 @@
     if (!publicList || !db) return;
     const { data, error } = await db
       .from("owner_availability")
-      .select("property_name, available_from, available_to, nightly_price, status, image_url")
+      .select("property_name, available_from, available_to, nightly_price, status, image_url, image_urls")
       .eq("status", "Available")
       .order("updated_at", { ascending: false })
       .limit(12);
@@ -359,7 +373,7 @@
     publicList.innerHTML = data.map((item) => (
       `<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-surface-container group cursor-pointer" onclick="window.location.href='property.html'">` +
       `<div class="relative aspect-[4/3] overflow-hidden bg-secondary-container">` +
-      `<img alt="${escapeHtml(item.property_name)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${escapeHtml(item.image_url || fallbackPropertyImage())}"/>` +
+      `<img alt="${escapeHtml(item.property_name)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${escapeHtml(item.image_url || (item.image_urls && item.image_urls[0]) || fallbackPropertyImage())}"/>` +
       `<div class="absolute top-4 left-4 flex items-center gap-1 px-2.5 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-full shadow-lg">` +
       `<span class="text-[10px] font-bold tracking-wide uppercase">${escapeHtml(item.status)}</span>` +
       `</div>` +

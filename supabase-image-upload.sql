@@ -3,6 +3,9 @@
 alter table public.owner_availability
 add column if not exists image_url text;
 
+alter table public.owner_availability
+add column if not exists image_urls text[] not null default '{}';
+
 insert into storage.buckets (id, name, public)
 values ('property-photos', 'property-photos', true)
 on conflict (id) do update set public = true;
