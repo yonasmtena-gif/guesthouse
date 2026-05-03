@@ -106,6 +106,12 @@ with check (
   or lower(auth.jwt() ->> 'email') in ('yonasmtena@gmail.com', 'yonastena100@gmail.com')
 );
 
+drop policy if exists "Logged in users can post availability" on public.owner_availability;
+create policy "Logged in users can post availability"
+on public.owner_availability for insert
+to authenticated
+with check (true);
+
 drop policy if exists "Public can read available units" on public.owner_availability;
 create policy "Public can read available units"
 on public.owner_availability for select
