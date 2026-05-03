@@ -19,6 +19,10 @@ create table if not exists public.owner_availability (
   status text not null check (status in ('Available', 'Unavailable', 'Booked', 'Maintenance')),
   image_url text,
   image_urls text[] not null default '{}',
+  location text,
+  bedrooms integer,
+  max_guests integer,
+  features text[] not null default '{}',
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -28,6 +32,18 @@ add column if not exists image_url text;
 
 alter table public.owner_availability
 add column if not exists image_urls text[] not null default '{}';
+
+alter table public.owner_availability
+add column if not exists location text;
+
+alter table public.owner_availability
+add column if not exists bedrooms integer;
+
+alter table public.owner_availability
+add column if not exists max_guests integer;
+
+alter table public.owner_availability
+add column if not exists features text[] not null default '{}';
 
 alter table public.owner_availability
 drop constraint if exists owner_availability_status_check;
