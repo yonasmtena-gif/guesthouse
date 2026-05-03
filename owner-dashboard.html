@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Owner Dashboard - Abyssinia Rentals</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
+.font-display { font-family: "Plus Jakarta Sans", sans-serif; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+</head>
+<body class="min-h-screen" data-protected-role="owner">
+<header class="sticky top-0 z-40 bg-white border-b border-[#f0eded]">
+<div class="max-w-6xl mx-auto h-16 px-5 flex items-center justify-between">
+<a class="flex items-center gap-3 text-[#00696d] font-display font-extrabold text-xl" href="index.html">
+<span class="material-symbols-outlined">real_estate_agent</span>
+<span>Owner</span>
+</a>
+<button class="h-10 px-4 rounded-lg border border-[#e2bebc] text-sm font-bold text-[#5a403f]" data-logout>Log Out</button>
+</div>
+</header>
+<main class="max-w-6xl mx-auto px-5 py-8 space-y-8">
+<section>
+<p class="text-sm font-bold text-[#8e706f] uppercase tracking-wide">Owner Portal</p>
+<h1 class="font-display text-3xl font-bold text-[#00696d] mt-1">Availability and Property Updates</h1>
+</section>
+<section class="grid gap-6 lg:grid-cols-[0.9fr,1.1fr]">
+<form class="bg-white border border-[#f0eded] rounded-xl shadow-sm p-5 space-y-4" data-availability-form>
+<h2 class="font-display text-xl font-bold">Update Availability</h2>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Property</span>
+<select class="mt-1 w-full rounded-xl border-[#e2bebc]" name="property">
+<option>The Bole Skyview Penthouse</option>
+<option>Skyline Heights Bole</option>
+<option>The Garden Villa</option>
+<option>Urban Zen Studio</option>
+</select>
+</label>
+<div class="grid grid-cols-2 gap-4">
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Available From</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc]" name="from" type="date" required/>
+</label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Available To</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc]" name="to" type="date" required/>
+</label>
+</div>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Nightly Price</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc]" name="price" type="number" min="1" placeholder="12500" required/>
+</label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Status</span>
+<select class="mt-1 w-full rounded-xl border-[#e2bebc]" name="status">
+<option>Available</option>
+<option>Booked</option>
+<option>Maintenance</option>
+</select>
+</label>
+<button class="w-full h-12 rounded-xl bg-[#00696d] text-white font-bold hover:bg-[#004f52] active:scale-[0.99] transition" type="submit">Save Availability</button>
+<p class="hidden rounded-lg bg-[#78fac4]/30 px-3 py-2 text-sm text-[#006c4c]" data-save-message>Availability saved on this device.</p>
+</form>
+<section class="bg-white border border-[#f0eded] rounded-xl shadow-sm overflow-hidden">
+<div class="p-5 border-b border-[#f0eded] flex items-center justify-between">
+<h2 class="font-display text-xl font-bold">Latest Availability</h2>
+<span class="text-xs font-bold text-[#8e706f]">Local preview</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-sm">
+<thead class="bg-[#f5f3f3] text-[#5a403f]"><tr><th class="text-left p-4">Property</th><th class="text-left p-4">Dates</th><th class="text-left p-4">Price</th><th class="text-left p-4">Status</th></tr></thead>
+<tbody data-availability-list>
+<tr class="border-t border-[#f0eded]"><td class="p-4 font-semibold">The Bole Skyview Penthouse</td><td class="p-4">May 10 - May 20</td><td class="p-4">ETB 12,500</td><td class="p-4"><span class="px-2 py-1 rounded-full bg-[#78fac4] text-[#006c4c] text-xs font-bold">Available</span></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+</main>
+<script src="portal.js"></script>
+</body>
+</html>
