@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Admin Dashboard - Abyssinia Rentals</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <style>
@@ -30,8 +31,8 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 </section>
 <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 <div class="bg-white border border-[#f0eded] rounded-xl p-5 shadow-sm"><p class="text-xs font-bold text-[#8e706f] uppercase">New Guests</p><p class="text-3xl font-display font-bold mt-2">18</p></div>
-<div class="bg-white border border-[#f0eded] rounded-xl p-5 shadow-sm"><p class="text-xs font-bold text-[#8e706f] uppercase">Active Bookings</p><p class="text-3xl font-display font-bold mt-2">42</p></div>
-<div class="bg-white border border-[#f0eded] rounded-xl p-5 shadow-sm"><p class="text-xs font-bold text-[#8e706f] uppercase">Pending Deposits</p><p class="text-3xl font-display font-bold mt-2">7</p></div>
+<div class="bg-white border border-[#f0eded] rounded-xl p-5 shadow-sm"><p class="text-xs font-bold text-[#8e706f] uppercase">Active Bookings</p><p class="text-3xl font-display font-bold mt-2" data-booking-count>42</p></div>
+<div class="bg-white border border-[#f0eded] rounded-xl p-5 shadow-sm"><p class="text-xs font-bold text-[#8e706f] uppercase">Pending Deposits</p><p class="text-3xl font-display font-bold mt-2" data-pending-count>7</p></div>
 <div class="bg-white border border-[#f0eded] rounded-xl p-5 shadow-sm"><p class="text-xs font-bold text-[#8e706f] uppercase">Listed Homes</p><p class="text-3xl font-display font-bold mt-2">64</p></div>
 </section>
 <section class="grid gap-6 lg:grid-cols-[1.3fr,0.7fr]">
@@ -43,7 +44,7 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 <div class="overflow-x-auto">
 <table class="w-full text-sm">
 <thead class="bg-[#f5f3f3] text-[#5a403f]"><tr><th class="text-left p-4">Guest</th><th class="text-left p-4">Stay</th><th class="text-left p-4">Status</th><th class="text-left p-4">Deposit</th></tr></thead>
-<tbody>
+<tbody data-bookings-list>
 <tr class="border-t border-[#f0eded]"><td class="p-4 font-semibold">Marta Alemu</td><td class="p-4">Bole Skyview</td><td class="p-4"><span class="px-2 py-1 rounded-full bg-[#8eeff4] text-[#00696d] text-xs font-bold">Confirmed</span></td><td class="p-4">Paid</td></tr>
 <tr class="border-t border-[#f0eded]"><td class="p-4 font-semibold">Daniel Tesfaye</td><td class="p-4">Garden Villa</td><td class="p-4"><span class="px-2 py-1 rounded-full bg-[#ffdad8] text-[#b52330] text-xs font-bold">Review</span></td><td class="p-4">Pending</td></tr>
 <tr class="border-t border-[#f0eded]"><td class="p-4 font-semibold">Sarah Mohammed</td><td class="p-4">Urban Zen Studio</td><td class="p-4"><span class="px-2 py-1 rounded-full bg-[#78fac4] text-[#006c4c] text-xs font-bold">Checked In</span></td><td class="p-4">Paid</td></tr>
@@ -62,6 +63,7 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 </aside>
 </section>
 </main>
+<script src="supabase-config.js"></script>
 <script src="portal.js"></script>
 </body>
 </html>

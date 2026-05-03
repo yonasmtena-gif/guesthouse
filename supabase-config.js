@@ -1,0 +1,2 @@
+window.ETHIOSTAY_SUPABASE_URL = "https://cscsikodwyqcznptfowc.supabase.co";
+window.ETHIOSTAY_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNzY3Npa29kd3lxY3pucHRmb3djIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3Nzg3NDMsImV4cCI6MjA5MzM1NDc0M30.-mJQBxXBznGDeiZaSna7HRQR04IbDry035RsOrJ4ybE";
