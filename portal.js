@@ -131,6 +131,24 @@
     return "https://lh3.googleusercontent.com/aida-public/AB6AXuA_KhMWlEiqFZvJLfZ18JU2pntwt5Nm-SPrvucPzCCxNUoe73N5ox13JLV9zWmFLpiCVHeOek9801Nh76NERlspf3vrCQKY1dvZThix8acrheD7XDkraZhpUWlXucHfv6LSI6uRroBcSx7_VF0hGefxTEumKAsboMT1FxNfvp9l0qa6-ylo-HVl2P9BPdFCJrrJtsnpS2HJdWjtmRqOPLPpWkC1kLKtvIIzU-RYStHt9QAplSuKbBD9Dpq1AEUMTMkUjB95R9hSes8b";
   }
 
+  function uniqueImageUrls(urls) {
+    return Array.from(new Set((urls || []).filter(Boolean)));
+  }
+
+  function listingImageMarkup(item) {
+    const uploadedImages = uniqueImageUrls(item.image_urls);
+    const imageUrl = item.image_url || uploadedImages[0];
+    if (imageUrl) {
+      return `<img alt="${escapeHtml(item.property_name)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${escapeHtml(imageUrl)}"/>`;
+    }
+    return (
+      `<div class="w-full h-full bg-surface-container-low flex flex-col items-center justify-center text-outline">` +
+      `<span class="material-symbols-outlined text-4xl mb-2">add_photo_alternate</span>` +
+      `<span class="text-label-bold">No room photo yet</span>` +
+      `</div>`
+    );
+  }
+
   function uniqueListingKey(item) {
     return [
       item.property_name || item.property || "",
@@ -226,7 +244,7 @@
         if (authData.user) {
           let imageUrls = [];
           try {
-            imageUrls = await uploadListingPhotos(photosInput ? photosInput.files : [], authData.user.id);
+            imageUrls = uniqueImageUrls(await uploadListingPhotos(photosInput ? photosInput.files : [], authData.user.id));
           } catch (error) {
             if (saveMessage) {
               saveMessage.textContent = "Photo upload failed, saving listing without pictures.";
@@ -420,7 +438,7 @@
     publicList.innerHTML = data.map((item) => (
       `<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-surface-container group cursor-pointer" onclick="window.location.href='property.html'">` +
       `<div class="relative aspect-[4/3] overflow-hidden bg-secondary-container">` +
-      `<img alt="${escapeHtml(item.property_name)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${escapeHtml(item.image_url || (item.image_urls && item.image_urls[0]) || fallbackPropertyImage())}"/>` +
+      listingImageMarkup(item) +
       `<div class="absolute top-4 left-4 flex items-center gap-1 px-2.5 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-full shadow-lg">` +
       `<span class="text-[10px] font-bold tracking-wide uppercase">${escapeHtml(item.status)}</span>` +
       `</div>` +
