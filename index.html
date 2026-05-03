@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
@@ -247,6 +248,18 @@
 </div>
 </section>
 <!-- Listing Feed -->
+<section class="mb-stack-lg">
+<div class="flex items-center justify-between mb-stack-md">
+<h2 class="font-h2 text-on-surface">Latest Available Units</h2>
+<span class="text-label-bold text-outline">Posted by admin and owners</span>
+</div>
+<div class="property-grid" data-public-availability-list>
+<div class="bg-white rounded-2xl border border-surface-container p-5 text-on-surface-variant">
+<p class="font-label-bold text-outline uppercase mb-1">Live updates</p>
+<p class="text-body-md">New admin and owner posts will appear here.</p>
+</div>
+</div>
+</section>
 <section class="property-grid">
 <!-- Property Card 1 -->
 <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-surface-container group cursor-pointer" onclick="window.location.href='property.html'">
@@ -402,5 +415,7 @@
 </div>
 </div>
 </footer>
+<script src="supabase-config.js"></script>
+<script src="portal.js"></script>
 </body></html>
 

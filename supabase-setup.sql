@@ -79,6 +79,11 @@ on public.owner_availability for all
 using (owner_id = auth.uid() or public.current_user_role() = 'admin')
 with check (owner_id = auth.uid() or public.current_user_role() = 'admin');
 
+drop policy if exists "Public can read available units" on public.owner_availability;
+create policy "Public can read available units"
+on public.owner_availability for select
+using (status = 'Available');
+
 drop policy if exists "Admins manage bookings" on public.bookings;
 create policy "Admins manage bookings"
 on public.bookings for all

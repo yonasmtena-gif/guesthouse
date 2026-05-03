@@ -53,13 +53,37 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 </div>
 </div>
 <aside class="bg-white border border-[#f0eded] rounded-xl shadow-sm p-5">
-<h2 class="font-display text-xl font-bold mb-4">Admin Actions</h2>
-<div class="space-y-3">
-<button class="w-full h-11 rounded-lg border border-[#e2bebc] text-left px-4 font-semibold">Approve booking</button>
-<button class="w-full h-11 rounded-lg border border-[#e2bebc] text-left px-4 font-semibold">Assign owner</button>
-<button class="w-full h-11 rounded-lg border border-[#e2bebc] text-left px-4 font-semibold">Update property</button>
-<button class="w-full h-11 rounded-lg border border-[#e2bebc] text-left px-4 font-semibold">Export guests</button>
+<h2 class="font-display text-xl font-bold mb-4">Post Property / Unit</h2>
+<form class="space-y-4" data-availability-form data-save-success="Property posted to the website.">
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Property / Unit name</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="property" placeholder="Example: Bole Apartment - Unit 2" required/>
+</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">From</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="from" type="date" required/>
+</label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">To</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="to" type="date" required/>
+</label>
 </div>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Nightly Price</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="price" type="number" min="1" placeholder="12500" required/>
+</label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Status</span>
+<select class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="status">
+<option>Available</option>
+<option>Booked</option>
+<option>Maintenance</option>
+</select>
+</label>
+<button class="w-full h-11 rounded-lg bg-[#b52330] text-white font-bold hover:bg-[#92001b] active:scale-[0.99] transition" type="submit">Post to Website</button>
+<p class="hidden rounded-lg bg-[#78fac4]/30 px-3 py-2 text-sm text-[#006c4c]" data-save-message>Property posted.</p>
+</form>
 </aside>
 </section>
 </main>
