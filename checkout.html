@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#59ddaa",
+                    "primary-fixed": "#ffdad8",
+                    "surface": "#fbf9f8",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#78fac4",
+                    "surface-dim": "#dbd9d9",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary": "#00696d",
+                    "inverse-primary": "#ffb3b0",
+                    "secondary-container": "#8eeff4",
+                    "outline-variant": "#e2bebc",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#006e72",
+                    "surface-container-low": "#f5f3f3",
+                    "outline": "#8e706f",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "surface-container": "#f0eded",
+                    "secondary-fixed-dim": "#74d6db",
+                    "tertiary": "#006c4c",
+                    "primary-container": "#ff5a5f",
+                    "on-background": "#1b1c1c",
+                    "surface-container-high": "#eae8e7",
+                    "on-tertiary-fixed": "#002115",
+                    "background": "#fbf9f8",
+                    "on-tertiary-container": "#003423",
+                    "on-surface": "#1b1c1c",
+                    "primary-fixed-dim": "#ffb3b0",
+                    "surface-variant": "#e4e2e2",
+                    "on-tertiary-fixed-variant": "#005139",
+                    "inverse-surface": "#303030",
+                    "on-primary-fixed": "#410007",
+                    "inverse-on-surface": "#f2f0f0",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#5a403f",
+                    "surface-bright": "#fbf9f8",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#91f2f7",
+                    "on-primary-container": "#61000e",
+                    "surface-container-highest": "#e4e2e2",
+                    "on-error": "#ffffff",
+                    "primary": "#b52330",
+                    "on-secondary-fixed": "#002021",
+                    "on-primary-fixed-variant": "#92001b",
+                    "tertiary-container": "#00a879",
+                    "surface-tint": "#b52330",
+                    "on-secondary-fixed-variant": "#004f52"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "stack-lg": "32px",
+                    "unit": "8px",
+                    "stack-sm": "8px",
+                    "margin-desktop": "40px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "h1": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "h3": ["Plus Jakarta Sans"],
+                    "h2": ["Plus Jakarta Sans"],
+                    "display": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "label-bold": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "h1": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "h3": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+                    "h2": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "label-bold": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scale-102:hover { transform: scale(1.02); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md sticky top-0 z-50 border-b border-zinc-100 dark:border-zinc-800 shadow-[0_10px_30px_rgba(0,0,0,0.04)] h-20">
+<div class="max-w-[1280px] mx-auto flex justify-between items-center px-4 md:px-8 h-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#FF5A5F] text-2xl md:text-3xl" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+<a class="text-xl md:text-2xl font-extrabold text-[#FF5A5F] font-['Plus_Jakarta_Sans'] tracking-tight" href="index.html">Serene Stay</a>
+</div>
+<nav class="hidden lg:flex items-center space-x-8">
+<a class="text-zinc-500 dark:text-zinc-400 font-medium font-['Plus_Jakarta_Sans'] tracking-tight hover:text-[#FF5A5F] transition-all duration-300" href="index.html">Explore</a>
+<a class="text-zinc-500 dark:text-zinc-400 font-medium font-['Plus_Jakarta_Sans'] tracking-tight hover:text-[#FF5A5F] transition-all duration-300" href="property.html">Stays</a>
+<a class="text-zinc-500 dark:text-zinc-400 font-medium font-['Plus_Jakarta_Sans'] tracking-tight hover:text-[#FF5A5F] transition-all duration-300" href="partner.html">Partner</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:block text-zinc-900 dark:text-zinc-100 font-medium text-sm hover:bg-zinc-50 px-4 py-2 rounded-full transition-all">Switch to Hosting</button>
+<div class="flex items-center gap-2 border border-zinc-200 rounded-full py-1.5 px-3 hover:shadow-md transition-shadow cursor-pointer">
+<span class="material-symbols-outlined text-zinc-600">menu</span>
+<span class="material-symbols-outlined text-zinc-400" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-[1280px] mx-auto px-4 md:px-8 py-8 md:py-12">
+<div class="flex items-center gap-4 mb-8 md:mb-10">
+<button class="w-10 h-10 rounded-full hover:bg-zinc-100 flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<h1 class="font-h1 text-2xl md:text-h1">Confirm and pay</h1>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-[1fr,420px] gap-8 md:gap-16">
+<!-- Left Column: Details -->
+<div class="space-y-10 md:space-y-12 order-2 lg:order-1">
+<section>
+<h2 class="font-h2 text-xl md:text-h2 mb-6">Your trip</h2>
+<div class="space-y-6">
+<div class="flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold uppercase tracking-wider text-zinc-500 mb-1">Dates</p>
+<p class="font-body-lg text-body-lg">Oct 12 &ndash; 17, 2024</p>
+</div>
+<button class="text-on-surface underline font-label-bold">Edit</button>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<p class="font-label-bold text-label-bold uppercase tracking-wider text-zinc-500 mb-1">Guests</p>
+<p class="font-body-lg text-body-lg">2 guests</p>
+</div>
+<button class="text-on-surface underline font-label-bold">Edit</button>
+</div>
+</div>
+</section>
+<hr class="border-zinc-200"/>
+<section>
+<div class="bg-surface-container-low rounded-xl p-5 md:p-6 border border-zinc-100">
+<div class="flex items-center gap-4 mb-4">
+<span class="material-symbols-outlined text-secondary text-2xl md:text-3xl">account_balance_wallet</span>
+<h3 class="font-h3 text-h3">Price details</h3>
+</div>
+<div class="space-y-4">
+<div class="flex justify-between font-body-md text-zinc-600">
+<span>$120 x 5 nights</span>
+<span>$600.00</span>
+</div>
+<div class="flex justify-between font-body-md text-zinc-600">
+<span class="underline decoration-zinc-300">Cleaning fee</span>
+<span>$45.00</span>
+</div>
+<div class="flex justify-between font-body-md text-zinc-600">
+<span class="underline decoration-zinc-300">Serene Stay service fee</span>
+<span>$85.00</span>
+</div>
+<div class="flex justify-between font-body-md text-zinc-600">
+<span>Taxes</span>
+<span>$12.50</span>
+</div>
+<hr class="border-zinc-200 my-2"/>
+<div class="flex justify-between font-h3 text-h3 text-on-background">
+<span>Total (USD)</span>
+<span>$742.50</span>
+</div>
+</div>
+<div class="mt-8 p-4 bg-tertiary-fixed/10 border border-tertiary/20 rounded-lg">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary mt-0.5">info</span>
+<div>
+<p class="font-label-bold text-tertiary uppercase tracking-tight">50% Deposit Due Now</p>
+<p class="font-body-md text-on-tertiary-container mt-1">Pay $371.25 today to secure your booking. The remaining balance will be charged on Oct 1, 2024.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="font-h2 text-xl md:text-h2 mb-6">Ground rules</h2>
+<p class="font-body-md text-zinc-600 mb-4">We ask every guest to remember a few simple things about what makes a great guest.</p>
+<ul class="space-y-3 list-disc list-inside font-body-md text-zinc-600">
+<li>Follow the house rules</li>
+<li>Treat your Host&rsquo;s home like your own</li>
+</ul>
+</section>
+<hr class="border-zinc-200 lg:hidden"/>
+</div>
+<!-- Right Column: Payment & Summary -->
+<div class="lg:sticky lg:top-32 h-fit order-1 lg:order-2">
+<div class="bg-white rounded-2xl p-6 md:p-8 shadow-[0_10px_40px_rgba(0,0,0,0.06)] border border-zinc-100">
+<div class="flex gap-4 mb-8">
+<div class="w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Modern Oasis Villa Santorini" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXJqRZGpQ0GN472qvhnjkhM7SCh-9AT5MslAlNXbd4mRPngz_T0mzKa8ewzolq9UgiPBPMwKvaCpcQ1VLbklehI6637W9KJv_siHM_JwcJtgx8Vlf_JHxclneXKI0KshOHmQlXt7CvBZSTXIMCYTXVl4uZzMA_OxE1lCt4TGo7GOvwzeroMBdkCMzk2Ib-N_FJGj0IPulALkznZdq33na7bFQ__7_Q0xplnTJoWw3TwMKDzEWH6b5XCWGVE3AxQBrs9Dd9-CevZNKn"/>
+</div>
+<div>
+<p class="font-label-sm text-zinc-500 mb-1">Modern Oasis Villa</p>
+<h3 class="font-h3 text-base md:text-h3 leading-tight mb-2">Entire villa in Santorini, Greece</h3>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px] md:text-xs" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-bold text-sm md:text-base">4.92</span>
+<span class="text-zinc-400 text-xs">(128 reviews)</span>
+</div>
+</div>
+</div>
+<hr class="border-zinc-100 mb-8"/>
+<h3 class="font-h3 text-h3 mb-6">Choose how to pay</h3>
+<div class="space-y-4 mb-8">
+<label class="flex items-center p-4 border-2 border-primary-container bg-primary-container/5 rounded-xl cursor-pointer transition-all">
+<input checked="" class="w-5 h-5 text-primary border-zinc-300 focus:ring-primary" name="payment" type="radio"/>
+<div class="ml-4 flex-grow">
+<p class="font-label-bold text-on-background">Pay with Cash App</p>
+<p class="text-xs text-zinc-500">Fast and secure mobile payment</p>
+</div>
+<span class="material-symbols-outlined text-primary">payments</span>
+</label>
+<label class="flex items-center p-4 border border-zinc-200 rounded-xl cursor-pointer hover:border-zinc-400 transition-all">
+<input class="w-5 h-5 text-primary border-zinc-300 focus:ring-primary" name="payment" type="radio"/>
+<div class="ml-4 flex-grow">
+<p class="font-label-bold text-on-background">Pay at Partner Location</p>
+<p class="text-xs text-zinc-500">Available at 5,000+ local centers</p>
+</div>
+<span class="material-symbols-outlined text-zinc-400">store</span>
+</label>
+<label class="flex items-center p-4 border border-zinc-200 rounded-xl cursor-pointer hover:border-zinc-400 transition-all">
+<input class="w-5 h-5 text-primary border-zinc-300 focus:ring-primary" name="payment" type="radio"/>
+<div class="ml-4 flex-grow">
+<p class="font-label-bold text-on-background">Credit or Debit Card</p>
+<p class="text-xs text-zinc-500">Visa, Mastercard, AMEX</p>
+</div>
+<div class="flex gap-1">
+<span class="material-symbols-outlined text-zinc-400">credit_card</span>
+</div>
+</label>
+</div>
+<p class="text-xs text-zinc-500 mb-6 leading-relaxed">
+                        By selecting the button below, I agree to the <span class="underline">Host's House Rules</span>, <span class="underline">Serene Stay's Rebooking and Refund Policy</span>, and that Serene Stay can charge my payment method if I&rsquo;m responsible for damage.
+                    </p>
+<button class="w-full bg-[#FF5A5F] text-white font-h3 py-4 rounded-xl shadow-lg hover:bg-primary transition-all active:scale-[0.98]">
+                        Confirm &amp; Pay $371.25
+                    </button>
+<div class="mt-6 flex items-center justify-center gap-2 text-zinc-400">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="text-[10px] md:text-xs font-medium uppercase tracking-widest">Secure encrypted checkout</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#F7F7F7] dark:bg-zinc-900 w-full pt-12 md:pt-16 pb-8 border-t border-zinc-200 dark:border-zinc-800 mt-12 md:mt-20">
+<div class="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-8 px-4 md:px-8 mb-12">
+<div class="lg:col-span-1">
+<p class="font-bold text-zinc-900 dark:text-zinc-100 mb-4 font-['Plus_Jakarta_Sans']">Support</p>
+<ul class="space-y-3">
+<li><a class="font-['Plus_Jakarta_Sans'] text-sm text-zinc-600 dark:text-zinc-400 hover:underline transition-opacity opacity-80 hover:opacity-100" href="#">Support Center</a></li>
+<li><a class="font-['Plus_Jakarta_Sans'] text-sm text-zinc-600 dark:text-zinc-400 hover:underline transition-opacity opacity-80 hover:opacity-100" href="#">Safety Information</a></li>
+<li><a class="font-['Plus_Jakarta_Sans'] text-sm text-zinc-600 dark:text-zinc-400 hover:underline transition-opacity opacity-80 hover:opacity-100" href="#">Cancellation options</a></li>
+</ul>
+</div>
+<div class="lg:col-span-1">
+<p class="font-bold text-zinc-900 dark:text-zinc-100 mb-4 font-['Plus_Jakarta_Sans']">Hosting</p>
+<ul class="space-y-3">
+<li><a class="font-['Plus_Jakarta_Sans'] text-sm text-zinc-600 dark:text-zinc-400 hover:underline transition-opacity opacity-80 hover:opacity-100" href="#">Partner with Us</a></li>
+<li><a class="font-['Plus_Jakarta_Sans'] text-sm text-zinc-600 dark:text-zinc-400 hover:underline transition-opacity opacity-80 hover:opacity-100" href="#">Hosting resources</a></li>
+<li><a class="font-['Plus_Jakarta_Sans'] text-sm text-zinc-600 dark:text-zinc-400 hover:underline transition-opacity opacity-80 hover:opacity-100" href="#">Community forum</a></li>
+</ul>
+</div>
+<div class="lg:col-span-1">
+<p class="font-bold text-zinc-900 dark:text-zinc-100 mb-4 font-['Plus_Jakarta_Sans']">Serene Stay</p>
+<ul class="space-y-3">
+<li><a class="font-['Plus_Jakarta_Sans'] text-sm text-zinc-600 dark:text-zinc-400 hover:underline transition-opacity opacity-80 hover:opacity-100" href="#">Newsroom</a></li>
+<li><a class="font-['Plus_Jakarta_Sans'] text-sm text-zinc-600 dark:text-zinc-400 hover:underline transition-opacity opacity-80 hover:opacity-100" href="#">Careers</a></li>
+<li><a class="font-['Plus_Jakarta_Sans'] text-sm text-zinc-600 dark:text-zinc-400 hover:underline transition-opacity opacity-80 hover:opacity-100" href="#">Investors</a></li>
+</ul>
+</div>
+<div class="hidden lg:block lg:col-span-3 flex flex-col items-end">
+<div class="flex items-center gap-4 mb-4">
+<span class="material-symbols-outlined text-zinc-600">language</span>
+<span class="font-medium text-sm">English (US)</span>
+<span class="font-medium text-sm">$ USD</span>
+</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-zinc-600">social_leaderboard</span>
+<span class="material-symbols-outlined text-zinc-600">camera</span>
+</div>
+</div>
+</div>
+<div class="max-w-[1280px] mx-auto px-4 md:px-8 border-t border-zinc-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+<p class="font-['Plus_Jakarta_Sans'] text-sm text-zinc-600 dark:text-zinc-400">&copy; 2024 Serene Stay &amp; Service. High-trust hospitality.</p>
+<div class="flex gap-6">
+<a class="font-['Plus_Jakarta_Sans'] text-sm text-zinc-600 hover:underline" href="#">Privacy Policy</a>
+<a class="font-['Plus_Jakarta_Sans'] text-sm text-zinc-600 hover:underline" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+</body></html>
+
