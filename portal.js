@@ -9,6 +9,10 @@
     : null;
 
   const forms = document.querySelectorAll("[data-login-role]");
+  function normalizeRole(role) {
+    return String(role || "").trim().toLowerCase();
+  }
+
   forms.forEach((form) => {
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -43,9 +47,14 @@
         .select("role")
         .eq("id", authData.user.id)
         .single();
-      if (profileError || !profile || profile.role !== form.dataset.loginRole) {
+      const expectedRole = normalizeRole(form.dataset.loginRole);
+      const actualRole = normalizeRole(profile && profile.role);
+      if (profileError || !profile || actualRole !== expectedRole) {
         await db.auth.signOut();
-        setError("This account does not have access to this portal.");
+        setError(profileError || !profile
+          ? "Login worked, but this account does not have an owner/admin profile yet."
+          : "This account is set as " + actualRole + ", not " + expectedRole + "."
+        );
         if (button) button.disabled = false;
         return;
       }
@@ -70,7 +79,7 @@
       .select("role")
       .eq("id", authData.user.id)
       .single();
-    if (!profile || profile.role !== requiredRole) {
+    if (!profile || normalizeRole(profile.role) !== normalizeRole(requiredRole)) {
       await db.auth.signOut();
       window.location.href = requiredRole === "admin" ? "admin-login.html" : "owner-login.html";
     }
@@ -138,7 +147,7 @@
       if (db) {
         const { data: authData } = await db.auth.getUser();
         if (authData.user) {
-          await db.from("owner_availability").insert({
+          const { error } = await db.from("owner_availability").insert({
             owner_id: authData.user.id,
             property_name: next.property,
             available_from: next.from,
@@ -146,6 +155,13 @@
             nightly_price: next.price,
             status: next.status,
           });
+          if (error) {
+            if (saveMessage) {
+              saveMessage.textContent = error.message;
+              saveMessage.classList.remove("hidden");
+            }
+            return;
+          }
         }
       } else {
         const saved = JSON.parse(localStorage.getItem("ethiostayAvailability") || "[]");
@@ -154,6 +170,7 @@
       }
       await renderAvailability();
       if (saveMessage) {
+        saveMessage.textContent = db ? "Availability saved." : "Availability saved on this device.";
         saveMessage.classList.remove("hidden");
         setTimeout(() => saveMessage.classList.add("hidden"), 2500);
       }
