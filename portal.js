@@ -9,8 +9,18 @@
     : null;
 
   const forms = document.querySelectorAll("[data-login-role]");
+  const roleEmailFallbacks = {
+    admin: ["yonasmtena@gmail.com"],
+    owner: ["yonastena100@gmail.com"],
+  };
+
   function normalizeRole(role) {
     return String(role || "").trim().toLowerCase();
+  }
+
+  function emailHasRole(email, role) {
+    const allowed = roleEmailFallbacks[normalizeRole(role)] || [];
+    return allowed.includes(String(email || "").trim().toLowerCase());
   }
 
   forms.forEach((form) => {
@@ -49,7 +59,8 @@
         .single();
       const expectedRole = normalizeRole(form.dataset.loginRole);
       const actualRole = normalizeRole(profile && profile.role);
-      if (profileError || !profile || actualRole !== expectedRole) {
+      const emailAllowed = emailHasRole(authData.user.email, expectedRole);
+      if ((profileError || !profile || actualRole !== expectedRole) && !emailAllowed) {
         await db.auth.signOut();
         setError(profileError || !profile
           ? "Login worked, but this account does not have an owner/admin profile yet."
@@ -79,7 +90,9 @@
       .select("role")
       .eq("id", authData.user.id)
       .single();
-    if (!profile || normalizeRole(profile.role) !== normalizeRole(requiredRole)) {
+    const hasProfileRole = profile && normalizeRole(profile.role) === normalizeRole(requiredRole);
+    const hasEmailRole = emailHasRole(authData.user.email, requiredRole);
+    if (!hasProfileRole && !hasEmailRole) {
       await db.auth.signOut();
       window.location.href = requiredRole === "admin" ? "admin-login.html" : "owner-login.html";
     }
