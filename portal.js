@@ -127,6 +127,26 @@
     }[char]));
   }
 
+  function fallbackPropertyImage() {
+    return "https://lh3.googleusercontent.com/aida-public/AB6AXuA_KhMWlEiqFZvJLfZ18JU2pntwt5Nm-SPrvucPzCCxNUoe73N5ox13JLV9zWmFLpiCVHeOek9801Nh76NERlspf3vrCQKY1dvZThix8acrheD7XDkraZhpUWlXucHfv6LSI6uRroBcSx7_VF0hGefxTEumKAsboMT1FxNfvp9l0qa6-ylo-HVl2P9BPdFCJrrJtsnpS2HJdWjtmRqOPLPpWkC1kLKtvIIzU-RYStHt9QAplSuKbBD9Dpq1AEUMTMkUjB95R9hSes8b";
+  }
+
+  async function uploadListingPhoto(file, userId) {
+    if (!db || !file || !file.size) return null;
+    if (!file.type.startsWith("image/")) {
+      throw new Error("Please choose an image file.");
+    }
+    const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const path = `${userId || "admin"}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext || "jpg"}`;
+    const { error } = await db.storage.from("property-photos").upload(path, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+    if (error) throw error;
+    const { data } = db.storage.from("property-photos").getPublicUrl(path);
+    return data.publicUrl;
+  }
+
   async function renderAvailability() {
     if (!availabilityList) return;
     let saved = JSON.parse(localStorage.getItem("ethiostayAvailability") || "[]");
@@ -167,9 +187,20 @@
         price: String(data.get("price") || ""),
         status: String(data.get("status") || "Available"),
       };
+      const photo = data.get("photo");
       if (db) {
         const { data: authData } = await db.auth.getUser();
         if (authData.user) {
+          let imageUrl = null;
+          try {
+            imageUrl = await uploadListingPhoto(photo, authData.user.id);
+          } catch (error) {
+            if (saveMessage) {
+              saveMessage.textContent = error.message;
+              saveMessage.classList.remove("hidden");
+            }
+            return;
+          }
           const { error } = await db.from("owner_availability").insert({
             owner_id: authData.user.id,
             property_name: next.property,
@@ -177,6 +208,7 @@
             available_to: next.to,
             nightly_price: next.price,
             status: next.status,
+            image_url: imageUrl,
           });
           if (error) {
             if (saveMessage) {
@@ -319,7 +351,7 @@
     if (!publicList || !db) return;
     const { data, error } = await db
       .from("owner_availability")
-      .select("property_name, available_from, available_to, nightly_price, status")
+      .select("property_name, available_from, available_to, nightly_price, status, image_url")
       .eq("status", "Available")
       .order("updated_at", { ascending: false })
       .limit(12);
@@ -327,7 +359,7 @@
     publicList.innerHTML = data.map((item) => (
       `<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-surface-container group cursor-pointer" onclick="window.location.href='property.html'">` +
       `<div class="relative aspect-[4/3] overflow-hidden bg-secondary-container">` +
-      `<img alt="${escapeHtml(item.property_name)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_KhMWlEiqFZvJLfZ18JU2pntwt5Nm-SPrvucPzCCxNUoe73N5ox13JLV9zWmFLpiCVHeOek9801Nh76NERlspf3vrCQKY1dvZThix8acrheD7XDkraZhpUWlXucHfv6LSI6uRroBcSx7_VF0hGefxTEumKAsboMT1FxNfvp9l0qa6-ylo-HVl2P9BPdFCJrrJtsnpS2HJdWjtmRqOPLPpWkC1kLKtvIIzU-RYStHt9QAplSuKbBD9Dpq1AEUMTMkUjB95R9hSes8b"/>` +
+      `<img alt="${escapeHtml(item.property_name)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="${escapeHtml(item.image_url || fallbackPropertyImage())}"/>` +
       `<div class="absolute top-4 left-4 flex items-center gap-1 px-2.5 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-full shadow-lg">` +
       `<span class="text-[10px] font-bold tracking-wide uppercase">${escapeHtml(item.status)}</span>` +
       `</div>` +
