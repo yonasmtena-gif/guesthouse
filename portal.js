@@ -113,6 +113,7 @@
 
   function statusClass(status) {
     if (status === "Booked") return "bg-[#ffdad8] text-[#b52330]";
+    if (status === "Unavailable") return "bg-[#ffdad8] text-[#b52330]";
     if (status === "Maintenance") return "bg-[#f0eded] text-[#5a403f]";
     return "bg-[#78fac4] text-[#006c4c]";
   }
@@ -208,10 +209,11 @@
     if (db) {
       const { data } = await db
         .from("owner_availability")
-        .select("property_name, available_from, available_to, nightly_price, status")
+        .select("id, property_name, available_from, available_to, nightly_price, status")
         .order("updated_at", { ascending: false })
         .limit(20);
       saved = dedupeListings(data || []).map((item) => ({
+        id: item.id,
         property: item.property_name,
         from: item.available_from,
         to: item.available_to,
@@ -220,12 +222,29 @@
       }));
     }
     if (!saved.length) return;
+    const actionButtons = (item) => (
+      `<div class="flex flex-wrap gap-2">` +
+      `<button class="px-3 py-1 rounded-lg border border-[#e2bebc] text-xs font-bold" data-availability-status="${escapeHtml(item.id)}" data-next-status="${item.status === "Available" ? "Unavailable" : "Available"}">${item.status === "Available" ? "Set Unavailable" : "Set Available"}</button>` +
+      `<button class="px-3 py-1 rounded-lg bg-[#ffdad8] text-[#b52330] text-xs font-bold" data-availability-delete="${escapeHtml(item.id)}">Delete</button>` +
+      `</div>`
+    );
+    if (availabilityList.hasAttribute("data-availability-compact")) {
+      availabilityList.innerHTML = saved.map((item) => (
+        `<tr class="border-t border-[#f0eded]">` +
+        `<td class="p-3 font-semibold">${escapeHtml(item.property)}</td>` +
+        `<td class="p-3"><span class="px-2 py-1 rounded-full ${statusClass(item.status)} text-xs font-bold">${escapeHtml(item.status)}</span></td>` +
+        `<td class="p-3">${actionButtons(item)}</td>` +
+        `</tr>`
+      )).join("");
+      return;
+    }
     availabilityList.innerHTML = saved.map((item) => (
       `<tr class="border-t border-[#f0eded]">` +
       `<td class="p-4 font-semibold">${escapeHtml(item.property)}</td>` +
       `<td class="p-4">${escapeHtml(item.from)} - ${escapeHtml(item.to)}</td>` +
       `<td class="p-4">ETB ${Number(item.price).toLocaleString()}</td>` +
       `<td class="p-4"><span class="px-2 py-1 rounded-full ${statusClass(item.status)} text-xs font-bold">${escapeHtml(item.status)}</span></td>` +
+      `<td class="p-4">${actionButtons(item)}</td>` +
       `</tr>`
     )).join("");
   }
@@ -309,6 +328,38 @@
         setTimeout(() => saveMessage.classList.add("hidden"), 2500);
       }
       availabilityForm.reset();
+    });
+  }
+
+  if (availabilityList) {
+    availabilityList.addEventListener("click", async (event) => {
+      const statusButton = event.target.closest("[data-availability-status]");
+      const deleteButton = event.target.closest("[data-availability-delete]");
+      if (!db || (!statusButton && !deleteButton)) return;
+      const id = statusButton ? statusButton.dataset.availabilityStatus : deleteButton.dataset.availabilityDelete;
+      if (!id) return;
+      if (statusButton) {
+        const { error } = await db
+          .from("owner_availability")
+          .update({ status: statusButton.dataset.nextStatus })
+          .eq("id", id);
+        if (saveMessage) {
+          saveMessage.textContent = error ? "Update failed: " + error.message : "Availability updated.";
+          saveMessage.classList.remove("hidden");
+        }
+      }
+      if (deleteButton) {
+        const { error } = await db
+          .from("owner_availability")
+          .delete()
+          .eq("id", id);
+        if (saveMessage) {
+          saveMessage.textContent = error ? "Delete failed: " + error.message : "Availability deleted.";
+          saveMessage.classList.remove("hidden");
+        }
+      }
+      await renderAvailability();
+      if (saveMessage) setTimeout(() => saveMessage.classList.add("hidden"), 2500);
     });
   }
 
