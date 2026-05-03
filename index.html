@@ -1,0 +1,402 @@
+﻿<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#004f52",
+                        "secondary-fixed-dim": "#74d6db",
+                        "on-secondary-container": "#006e72",
+                        "tertiary": "#006c4c",
+                        "surface-container-highest": "#e4e2e2",
+                        "surface-container-high": "#eae8e7",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#005139",
+                        "on-surface": "#1b1c1c",
+                        "on-tertiary-fixed": "#002115",
+                        "surface-tint": "#b52330",
+                        "surface-container": "#f0eded",
+                        "secondary-fixed": "#91f2f7",
+                        "inverse-on-surface": "#f2f0f0",
+                        "primary-container": "#ff5a5f",
+                        "on-primary-container": "#61000e",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#ffdad8",
+                        "on-secondary": "#ffffff",
+                        "outline": "#8e706f",
+                        "primary-fixed-dim": "#ffb3b0",
+                        "on-tertiary-container": "#003423",
+                        "on-primary-fixed-variant": "#92001b",
+                        "on-background": "#1b1c1c",
+                        "tertiary-fixed-dim": "#59ddaa",
+                        "on-surface-variant": "#5a403f",
+                        "on-primary": "#ffffff",
+                        "surface": "#fbf9f8",
+                        "surface-dim": "#dbd9d9",
+                        "outline-variant": "#e2bebc",
+                        "tertiary-container": "#00a879",
+                        "secondary": "#00696d",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#8eeff4",
+                        "background": "#fbf9f8",
+                        "on-primary-fixed": "#410007",
+                        "inverse-surface": "#303030",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-low": "#f5f3f3",
+                        "on-secondary-fixed": "#002021",
+                        "inverse-primary": "#ffb3b0",
+                        "surface-variant": "#e4e2e2",
+                        "primary": "#b52330",
+                        "surface-bright": "#fbf9f8",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#78fac4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "32px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "unit": "8px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "container-max": "1280px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-bold": ["Inter"],
+                        "h3": ["Plus Jakarta Sans"],
+                        "display": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "h2": ["Plus Jakarta Sans"],
+                        "h1": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-bold": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                        "h3": ["18px", {"lineHeight": "26px", "fontWeight": "600"}],
+                        "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                        "h2": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "h1": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        body {
+            background-color: #fbf9f8;
+            min-height: 100dvh;
+        }
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+            gap: 24px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Header -->
+<header class="fixed top-0 w-full z-50 bg-white border-b border-surface-container shadow-sm">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop h-16 md:h-20 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 md:w-11 md:h-11 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8eiGWYFApCw-6Vbs5_15181B_w0i1KozH7FV7TxVmjOy4c4M47HEtlp454VAAyBMPk7E9QKa-0hAYpCrHHa3uZhpBxEoYlFTKeU62qEEPRnvYBvlM4J2n4_FXizHq_8_G4AlJ8zYnDBGAbQyXNWpncoVZ4y25eHjft_hNsr5nDypjQYqKYesKhYUrWgLAKAif_6c-Poi17nG_z6PUQGNFaYk_P5iCFQnrkEv86sE9bha70L0Lk4CTEQRtJqu81c8_z91zzqzyt7t5"/>
+</div>
+<span class="text-xl md:text-2xl font-extrabold text-primary font-h1 tracking-tight">Abyssinia Rentals</span>
+</div>
+<!-- Desktop Navigation -->
+<nav class="hidden md:flex items-center gap-8 text-on-surface-variant font-medium">
+<a class="text-primary border-b-2 border-primary pb-1" href="index.html">Stay</a>
+<a class="hover:text-primary transition-colors" href="checkout.html">Bookings</a>
+<a class="hover:text-primary transition-colors" href="partner.html">Partner</a>
+</nav>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container active:scale-95 transition-transform duration-200 text-on-surface">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container active:scale-95 transition-transform duration-200 text-on-surface">
+<span class="material-symbols-outlined" data-icon="tune">tune</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-20 md:pt-28 pb-28 md:pb-12 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<!-- Search Bar Section -->
+<section class="mb-stack-lg">
+<div class="bg-white p-2 rounded-2xl shadow-md border border-outline-variant flex flex-col md:flex-row items-stretch md:items-center gap-2">
+<div class="flex-1 flex items-center px-4 py-3 hover:bg-surface-container-low rounded-xl transition-colors cursor-pointer border-b md:border-b-0 md:border-r border-surface-container">
+<span class="material-symbols-outlined text-outline mr-3" data-icon="location_on">location_on</span>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-outline uppercase tracking-wider">Where</span>
+<input class="bg-transparent border-none p-0 focus:ring-0 text-body-md font-semibold placeholder:text-on-surface-variant" placeholder="Where to in Addis?" type="text"/>
+</div>
+</div>
+<div class="flex-1 flex items-center px-4 py-3 hover:bg-surface-container-low rounded-xl transition-colors cursor-pointer border-b md:border-b-0 md:border-r border-surface-container">
+<span class="material-symbols-outlined text-outline mr-3" data-icon="calendar_today">calendar_today</span>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-outline uppercase tracking-wider">Check-in</span>
+<span class="text-body-md font-semibold text-on-surface">Add dates</span>
+</div>
+</div>
+<div class="flex-1 flex items-center px-4 py-3 hover:bg-surface-container-low rounded-xl transition-colors cursor-pointer border-b md:border-b-0 md:border-r border-surface-container">
+<span class="material-symbols-outlined text-outline mr-3" data-icon="group">group</span>
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-outline uppercase tracking-wider">Who</span>
+<span class="text-body-md font-semibold text-on-surface">Add guests</span>
+</div>
+</div>
+<button class="bg-primary text-white rounded-xl px-8 py-3 md:py-0 flex items-center justify-center gap-2 hover:bg-primary/90 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-bold md:hidden">Search</span>
+</button>
+</div>
+</section>
+<!-- Explore Sub-cities -->
+<section class="mb-stack-lg">
+<div class="flex items-center justify-between mb-stack-md">
+<h2 class="font-h2 text-on-surface">Explore Sub-cities</h2>
+<button class="text-primary font-label-bold flex items-center gap-1 hover:underline">
+                See all
+                <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+<div class="flex gap-4 overflow-x-auto no-scrollbar py-1"><!-- Sub-city 1: Bole -->
+<button class="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full bg-primary-fixed/20 border border-primary-container/20 hover:bg-primary-fixed/30 transition-all group">
+<span class="font-label-bold text-on-surface-variant group-hover:text-primary">Bole</span>
+<span class="px-2 py-0.5 rounded-full bg-white/50 text-[10px] font-bold text-outline">120+</span>
+</button>
+<!-- Sub-city 2: Kirkos -->
+<button class="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full bg-secondary-fixed/20 border border-secondary-container/20 hover:bg-secondary-fixed/30 transition-all group">
+<span class="font-label-bold text-on-surface-variant group-hover:text-secondary">Kirkos</span>
+<span class="px-2 py-0.5 rounded-full bg-white/50 text-[10px] font-bold text-outline">85+</span>
+</button>
+<!-- Sub-city 3: Lideta -->
+<button class="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full bg-tertiary-fixed/20 border border-tertiary-container/20 hover:bg-tertiary-fixed/30 transition-all group">
+<span class="font-label-bold text-on-surface-variant group-hover:text-tertiary">Lideta</span>
+<span class="px-2 py-0.5 rounded-full bg-white/50 text-[10px] font-bold text-outline">42+</span>
+</button>
+<!-- Sub-city 4: Arada -->
+<button class="flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container-high border border-outline-variant/30 hover:bg-surface-container-highest transition-all group">
+<span class="font-label-bold text-on-surface-variant group-hover:text-on-surface">Arada</span>
+<span class="px-2 py-0.5 rounded-full bg-white/50 text-[10px] font-bold text-outline">64+</span>
+</button></div>
+</section>
+<!-- Categories & Filters -->
+<section class="mb-stack-lg">
+<div class="flex flex-col gap-6">
+<!-- Primary Property Types -->
+<div class="flex items-center gap-stack-sm overflow-x-auto no-scrollbar py-1">
+<button class="flex items-center gap-unit px-5 py-2.5 bg-primary text-white rounded-full whitespace-nowrap active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined text-[18px]" data-icon="apartment">apartment</span>
+<span class="font-label-bold">Apartments</span>
+</button>
+<button class="flex items-center gap-unit px-5 py-2.5 bg-white text-on-surface-variant border border-outline-variant rounded-full whitespace-nowrap hover:bg-surface-container-low active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="villa">villa</span>
+<span class="font-label-bold">Villas</span>
+</button>
+<button class="flex items-center gap-unit px-5 py-2.5 bg-white text-on-surface-variant border border-outline-variant rounded-full whitespace-nowrap hover:bg-surface-container-low active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]" data-icon="holiday_village">holiday_village</span>
+<span class="font-label-bold">Guesthouses</span>
+</button>
+</div>
+<!-- Bedroom Count Filters -->
+<div class="flex items-center gap-4 overflow-x-auto no-scrollbar border-t border-surface-container-high pt-6">
+<span class="text-label-bold text-outline whitespace-nowrap mr-2">Bedrooms:</span>
+<button class="flex flex-col items-center gap-1 min-w-[72px] px-2 py-3 rounded-xl border-2 border-primary bg-primary-fixed/20 text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="bed">bed</span>
+<span class="text-[11px] font-bold">1 Bed</span>
+</button>
+<button class="flex flex-col items-center gap-1 min-w-[72px] px-2 py-3 rounded-xl border-2 border-transparent hover:bg-surface-container-low text-on-surface-variant transition-all">
+<span class="material-symbols-outlined" data-icon="bedroom_parent">bedroom_parent</span>
+<span class="text-[11px] font-medium">2 Beds</span>
+</button>
+<button class="flex flex-col items-center gap-1 min-w-[72px] px-2 py-3 rounded-xl border-2 border-transparent hover:bg-surface-container-low text-on-surface-variant transition-all">
+<span class="material-symbols-outlined" data-icon="bedroom_baby">bedroom_baby</span>
+<span class="text-[11px] font-medium">3 Beds</span>
+</button>
+<button class="flex flex-col items-center gap-1 min-w-[72px] px-2 py-3 rounded-xl border-2 border-transparent hover:bg-surface-container-low text-on-surface-variant transition-all">
+<span class="material-symbols-outlined" data-icon="king_bed">king_bed</span>
+<span class="text-[11px] font-medium">4+ Beds</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Listing Feed -->
+<section class="property-grid">
+<!-- Property Card 1 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-surface-container group cursor-pointer" onclick="window.location.href='property.html'">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Bole Apartment" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_KhMWlEiqFZvJLfZ18JU2pntwt5Nm-SPrvucPzCCxNUoe73N5ox13JLV9zWmFLpiCVHeOek9801Nh76NERlspf3vrCQKY1dvZThix8acrheD7XDkraZhpUWlXucHfv6LSI6uRroBcSx7_VF0hGefxTEumKAsboMT1FxNfvp9l0qa6-ylo-HVl2P9BPdFCJrrJtsnpS2HJdWjtmRqOPLPpWkC1kLKtvIIzU-RYStHt9QAplSuKbBD9Dpq1AEUMTMkUjB95R9hSes8b"/>
+<div class="absolute top-4 left-4 flex items-center gap-1 px-2.5 py-1 bg-secondary-container text-on-secondary-container rounded-full shadow-lg">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-bold tracking-wide uppercase">Verified</span>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/40 backdrop-blur-md text-white hover:bg-white/60 active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-stack-md">
+<div class="flex justify-between items-start mb-unit">
+<h3 class="font-h3 text-on-surface group-hover:text-primary transition-colors">Skyline Heights Bole</h3>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-bold text-on-surface">4.9</span>
+</div>
+</div>
+<p class="flex items-center gap-1 text-outline text-body-md mb-stack-md">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span>
+                    Bole, Addis Ababa
+                </p>
+<div class="flex items-end justify-between border-t border-surface-container pt-stack-md">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-outline uppercase tracking-wider">Per Night</span>
+<span class="font-h2 text-primary">ETB 12,500</span>
+</div>
+<button class="px-6 py-2 bg-primary text-white font-label-bold rounded-lg hover:bg-primary/90 active:scale-95 transition-all" onclick="event.stopPropagation(); window.location.href='property.html'">Book</button>
+</div>
+</div>
+</div>
+<!-- Property Card 2 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-surface-container group cursor-pointer" onclick="window.location.href='property.html'">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Modern Villa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTuOGyloDrh8MnPU2V9PYF9gLdod8ELaqs3_wE2Hh3d-RPxVxndf0KsEpqYgSTwKkd3h3PkSK68RMuhhIhPzFeKcXQg5qbuIlVf_ILD00o4uXQvpqWZTYkijfP_zqYDx4dqj60t9O79jOWE_HS6VblJ6DgNBfhpx64Z8T0lGJ9G0B2LY_oi4aI2BWZfP-fVG7hNnqwvmUQHDk-_S47c8m033Jna_dTrw7v4yfrabDt-opR3NhsnJRIFV_intNvkSjSWFBfYCgc_smb"/>
+<div class="absolute top-4 left-4 flex items-center gap-1 px-2.5 py-1 bg-secondary-container text-on-secondary-container rounded-full shadow-lg">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-[10px] font-bold tracking-wide uppercase">Verified</span>
+</div>
+<button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/40 backdrop-blur-md text-white hover:bg-white/60 active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-stack-md">
+<div class="flex justify-between items-start mb-unit">
+<h3 class="font-h3 text-on-surface group-hover:text-primary transition-colors">The Garden Villa</h3>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-bold text-on-surface">4.8</span>
+</div>
+</div>
+<p class="flex items-center gap-1 text-outline text-body-md mb-stack-md">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span>
+                    Old Airport, Addis Ababa
+                </p>
+<div class="flex items-end justify-between border-t border-surface-container pt-stack-md">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-outline uppercase tracking-wider">Per Night</span>
+<span class="font-h2 text-primary">ETB 45,000</span>
+</div>
+<button class="px-6 py-2 bg-primary text-white font-label-bold rounded-lg hover:bg-primary/90 active:scale-95 transition-all" onclick="event.stopPropagation(); window.location.href='property.html'">Book</button>
+</div>
+</div>
+</div>
+<!-- Property Card 3 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-surface-container group cursor-pointer" onclick="window.location.href='property.html'">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Cozy Studio" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYE78bNFmssRhBwtQ6nxott6cO6Tvd63IdEOORfRMGDkUuaHmEYUFQIlA7GUq6-9tU2wtoe1m7B2TJ8zTCADq8p858gQxoi2aGE2NORooTSnHR6iTlHEfkxaEm4sY05K2cIZm5oomnFQ8Hbhm6Do1gTeYNSMJqu-W6177tsDpeNfAdcEILx6VCK3721e-yW52NS78D6A3UIp0BIc_s4ejgcB1RL4S6hRxYlXLuxZ7k1ksFm2kg24ZNshHu2_TzxcsLegwhSN-OxGcM"/>
+<button class="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/40 backdrop-blur-md text-white hover:bg-white/60 active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+<div class="p-stack-md">
+<div class="flex justify-between items-start mb-unit">
+<h3 class="font-h3 text-on-surface group-hover:text-primary transition-colors">Urban Zen Studio</h3>
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-bold text-on-surface">4.7</span>
+</div>
+</div>
+<p class="flex items-center gap-1 text-outline text-body-md mb-stack-md">
+<span class="material-symbols-outlined text-[16px]" data-icon="location_on">location_on</span>
+                    Kazanchis, Addis Ababa
+                </p>
+<div class="flex items-end justify-between border-t border-surface-container pt-stack-md">
+<div class="flex flex-col">
+<span class="text-[10px] font-bold text-outline uppercase tracking-wider">Per Night</span>
+<span class="font-h2 text-primary">ETB 8,200</span>
+</div>
+<button class="px-6 py-2 bg-primary text-white font-label-bold rounded-lg hover:bg-primary/90 active:scale-95 transition-all" onclick="event.stopPropagation(); window.location.href='property.html'">Book</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Floating Map Button -->
+<button class="fixed bottom-24 md:bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-2 px-6 py-3.5 bg-inverse-surface text-inverse-on-surface rounded-full shadow-2xl z-40 hover:scale-105 active:scale-95 transition-all border border-white/10 backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]" data-icon="map">map</span>
+<span class="font-label-bold text-sm">Show map</span>
+</button>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 h-20 bg-white border-t border-surface-container shadow-[0_-4px_16px_rgba(0,0,0,0.04)]">
+<a class="flex flex-col items-center justify-center text-primary font-bold bg-primary-fixed/30 rounded-xl px-5 py-1.5 active:scale-90 transition-all duration-150" href="#">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">home_work</span>
+<span class="text-[11px] font-bold mt-0.5">Stay</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1.5 active:scale-90 transition-all duration-150" href="checkout.html">
+<span class="material-symbols-outlined text-[24px]">calendar_today</span>
+<span class="text-[11px] font-medium mt-0.5">Bookings</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1.5 active:scale-90 transition-all duration-150" href="partner.html">
+<span class="material-symbols-outlined text-[24px]">qr_code_2</span>
+<span class="text-[11px] font-medium mt-0.5">Partner</span>
+</a>
+</nav>
+<!-- Desktop Footer -->
+<footer class="hidden md:block bg-white border-t border-surface-container-high py-12">
+<div class="max-w-container-max mx-auto px-margin-desktop flex flex-col md:flex-row justify-between gap-gutter">
+<div class="max-w-xs">
+<span class="text-xl font-bold text-primary mb-4 block">Abyssinia Rentals</span>
+<p class="text-body-md text-on-surface-variant">Premium stays and exceptional service in the heart of Addis Ababa. Experience the city like a local.</p>
+</div>
+<div class="grid grid-cols-2 gap-12">
+<div>
+<h4 class="font-bold text-on-surface mb-4">Support</h4>
+<ul class="space-y-2 text-body-md text-on-surface-variant">
+<li><a class="hover:text-primary" href="#">Help Center</a></li>
+<li><a class="hover:text-primary" href="#">Safety information</a></li>
+<li><a class="hover:text-primary" href="#">Cancellation options</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-4">Abyssinia</h4>
+<ul class="space-y-2 text-body-md text-on-surface-variant">
+<li><a class="hover:text-primary" href="#">Newsroom</a></li>
+<li><a class="hover:text-primary" href="#">Learn about features</a></li>
+<li><a class="hover:text-primary" href="#">Careers</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="max-w-container-max mx-auto px-margin-desktop mt-12 pt-8 border-t border-surface-container flex justify-between text-label-sm text-outline">
+<span>&copy; 2024 Abyssinia Rentals. All rights reserved.</span>
+<div class="flex gap-6">
+<a class="hover:underline" href="#">Privacy</a>
+<a class="hover:underline" href="#">Terms</a>
+<a class="hover:underline" href="#">Sitemap</a>
+</div>
+</div>
+</footer>
+</body></html>
+
