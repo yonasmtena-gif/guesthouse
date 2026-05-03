@@ -95,8 +95,16 @@ with check (public.current_user_role() = 'admin');
 drop policy if exists "Owners manage own availability" on public.owner_availability;
 create policy "Owners manage own availability"
 on public.owner_availability for all
-using (owner_id = auth.uid() or public.current_user_role() = 'admin')
-with check (owner_id = auth.uid() or public.current_user_role() = 'admin');
+using (
+  owner_id = auth.uid()
+  or public.current_user_role() = 'admin'
+  or lower(auth.jwt() ->> 'email') in ('yonasmtena@gmail.com', 'yonastena100@gmail.com')
+)
+with check (
+  owner_id = auth.uid()
+  or public.current_user_role() = 'admin'
+  or lower(auth.jwt() ->> 'email') in ('yonasmtena@gmail.com', 'yonastena100@gmail.com')
+);
 
 drop policy if exists "Public can read available units" on public.owner_availability;
 create policy "Public can read available units"
