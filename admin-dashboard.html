@@ -105,6 +105,20 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 <span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Property / Unit name</span>
 <input class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="property" placeholder="Example: Bole Apartment - Unit 2" required/>
 </label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Location / Area</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="location" placeholder="Example: Bole, Addis Ababa"/>
+</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Bedrooms</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="bedrooms" type="number" min="0" placeholder="2"/>
+</label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Guests</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="guests" type="number" min="1" placeholder="4"/>
+</label>
+</div>
 <div class="grid grid-cols-2 gap-3">
 <label class="block">
 <span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">From</span>
@@ -128,10 +142,14 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 <span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Status</span>
 <select class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="status">
 <option>Available</option>
-<option>Unavailable</option>
+<option value="Unavailable">Not Available</option>
 <option>Booked</option>
 <option>Maintenance</option>
 </select>
+</label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Amenities / Features</span>
+<textarea class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="features" rows="3" placeholder="WiFi, parking, kitchen, airport pickup"></textarea>
 </label>
 <button class="w-full h-11 rounded-lg bg-[#b52330] text-white font-bold hover:bg-[#92001b] active:scale-[0.99] transition" type="submit">Post to Website</button>
 <p class="hidden rounded-lg bg-[#78fac4]/30 px-3 py-2 text-sm text-[#006c4c]" data-save-message>Property posted.</p>
@@ -150,7 +168,7 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 </aside>
 </section>
 </main>
-<script src="supabase-config.js?v=20260503-1835"></script>
-<script src="portal.js?v=20260503-1835"></script>
+<script src="supabase-config.js?v=20260503-1915"></script>
+<script src="portal.js?v=20260503-1915"></script>
 </body>
 </html>

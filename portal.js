@@ -136,6 +136,31 @@
     return Array.from(new Set((urls || []).filter(Boolean)));
   }
 
+  function normalizeFeatures(value) {
+    if (Array.isArray(value)) {
+      return value.map((item) => String(item || "").trim()).filter(Boolean);
+    }
+    return String(value || "")
+      .split(/[\n,]+/)
+      .map((item) => item.trim())
+      .filter(Boolean)
+      .slice(0, 8);
+  }
+
+  function featureSummary(item) {
+    const details = [];
+    if (item.location) details.push(item.location);
+    if (item.bedrooms) details.push(`${item.bedrooms} bed${Number(item.bedrooms) === 1 ? "" : "s"}`);
+    if (item.guests || item.max_guests) details.push(`${item.guests || item.max_guests} guest${Number(item.guests || item.max_guests) === 1 ? "" : "s"}`);
+    return details.join(" • ");
+  }
+
+  function featureChips(features, limit) {
+    return normalizeFeatures(features).slice(0, limit || 4).map((feature) => (
+      `<span class="px-2.5 py-1 rounded-full bg-surface-container-low text-outline text-[11px] font-bold">${escapeHtml(feature)}</span>`
+    )).join("");
+  }
+
   function listingImageMarkup(item) {
     const uploadedImages = uniqueImageUrls(item.image_urls);
     const imageUrl = item.image_url || uploadedImages[0];
@@ -174,6 +199,10 @@
     return Boolean(error && error.message && error.message.includes("image_url"));
   }
 
+  function isMissingListingFeatureColumnError(error) {
+    return Boolean(error && error.message && /'?(location|bedrooms|max_guests|features)'? column|column .* does not exist|schema cache/i.test(error.message));
+  }
+
   async function uploadListingPhoto(file, userId) {
     if (!db || !file || !file.size) return null;
     if (!file.type.startsWith("image/")) {
@@ -207,11 +236,19 @@
     if (!availabilityList) return;
     let saved = JSON.parse(localStorage.getItem("ethiostayAvailability") || "[]");
     if (db) {
-      const { data } = await db
+      let { data, error } = await db
         .from("owner_availability")
-        .select("id, property_name, available_from, available_to, nightly_price, status")
+        .select("id, property_name, available_from, available_to, nightly_price, status, location, bedrooms, max_guests, features")
         .order("updated_at", { ascending: false })
         .limit(20);
+      if (isMissingListingFeatureColumnError(error)) {
+        const fallback = await db
+          .from("owner_availability")
+          .select("id, property_name, available_from, available_to, nightly_price, status")
+          .order("updated_at", { ascending: false })
+          .limit(20);
+        data = fallback.data;
+      }
       saved = dedupeListings(data || []).map((item) => ({
         id: item.id,
         property: item.property_name,
@@ -219,19 +256,30 @@
         to: item.available_to,
         price: item.nightly_price,
         status: item.status,
+        location: item.location,
+        bedrooms: item.bedrooms,
+        guests: item.max_guests,
+        features: item.features,
       }));
     }
     if (!saved.length) return;
-    const actionButtons = (item) => (
+    const actionButtons = (item) => {
+      const nextStatus = item.status === "Available" ? "Unavailable" : "Available";
+      const label = nextStatus === "Unavailable" ? "Mark Not Available" : "Mark Available";
+      const buttonClass = nextStatus === "Unavailable"
+        ? "border-[#e2bebc] text-[#b52330] bg-white"
+        : "border-[#00696d] text-white bg-[#00696d]";
+      return (
       `<div class="flex flex-wrap gap-2">` +
-      `<button class="px-3 py-1 rounded-lg border border-[#e2bebc] text-xs font-bold" data-availability-status="${escapeHtml(item.id)}" data-next-status="${item.status === "Available" ? "Unavailable" : "Available"}">${item.status === "Available" ? "Set Unavailable" : "Set Available"}</button>` +
+      `<button class="px-3 py-1 rounded-lg border ${buttonClass} text-xs font-bold" data-availability-status="${escapeHtml(item.id)}" data-next-status="${nextStatus}">${label}</button>` +
       `<button class="px-3 py-1 rounded-lg bg-[#ffdad8] text-[#b52330] text-xs font-bold" data-availability-delete="${escapeHtml(item.id)}">Delete</button>` +
       `</div>`
-    );
+      );
+    };
     if (availabilityList.hasAttribute("data-availability-compact")) {
       availabilityList.innerHTML = saved.map((item) => (
         `<tr class="border-t border-[#f0eded]">` +
-        `<td class="p-3 font-semibold">${escapeHtml(item.property)}</td>` +
+        `<td class="p-3"><p class="font-semibold">${escapeHtml(item.property)}</p><p class="text-xs text-[#8e706f]">${escapeHtml(featureSummary(item))}</p></td>` +
         `<td class="p-3"><span class="px-2 py-1 rounded-full ${statusClass(item.status)} text-xs font-bold">${escapeHtml(item.status)}</span></td>` +
         `<td class="p-3">${actionButtons(item)}</td>` +
         `</tr>`
@@ -241,6 +289,7 @@
     availabilityList.innerHTML = saved.map((item) => (
       `<tr class="border-t border-[#f0eded]">` +
       `<td class="p-4 font-semibold">${escapeHtml(item.property)}</td>` +
+      `<td class="p-4"><p>${escapeHtml(featureSummary(item) || "Details not added")}</p><div class="mt-2 flex flex-wrap gap-1">${featureChips(item.features, 3)}</div></td>` +
       `<td class="p-4">${escapeHtml(item.from)} - ${escapeHtml(item.to)}</td>` +
       `<td class="p-4">ETB ${Number(item.price).toLocaleString()}</td>` +
       `<td class="p-4"><span class="px-2 py-1 rounded-full ${statusClass(item.status)} text-xs font-bold">${escapeHtml(item.status)}</span></td>` +
@@ -260,6 +309,10 @@
         to: String(data.get("to") || ""),
         price: String(data.get("price") || ""),
         status: String(data.get("status") || "Available"),
+        location: String(data.get("location") || "").trim(),
+        bedrooms: String(data.get("bedrooms") || "").trim(),
+        guests: String(data.get("guests") || "").trim(),
+        features: normalizeFeatures(data.get("features")),
       };
       const photosInput = availabilityForm.querySelector("input[name='photos']");
       if (db) {
@@ -282,6 +335,10 @@
             available_to: next.to,
             nightly_price: next.price,
             status: next.status,
+            location: next.location || null,
+            bedrooms: next.bedrooms ? Number(next.bedrooms) : null,
+            max_guests: next.guests ? Number(next.guests) : null,
+            features: next.features,
           };
           const { error } = await db.from("owner_availability").insert({
             ...listingPayload,
@@ -289,6 +346,37 @@
             image_urls: imageUrls,
           });
           if (error) {
+            const basicPayload = {
+              owner_id: listingPayload.owner_id,
+              property_name: listingPayload.property_name,
+              available_from: listingPayload.available_from,
+              available_to: listingPayload.available_to,
+              nightly_price: listingPayload.nightly_price,
+              status: listingPayload.status,
+            };
+            if (isMissingListingFeatureColumnError(error)) {
+              const imageOnlyPayload = {
+                ...basicPayload,
+                image_url: imageUrls[0] || null,
+                image_urls: imageUrls,
+              };
+              const imageFallback = await db.from("owner_availability").insert(imageOnlyPayload);
+              let fallbackError = imageFallback.error;
+              if (fallbackError && isMissingImageColumnError(fallbackError)) {
+                const basicFallback = await db.from("owner_availability").insert(basicPayload);
+                fallbackError = basicFallback.error;
+              }
+              if (!fallbackError) {
+                await renderAvailability();
+                if (saveMessage) {
+                  saveMessage.textContent = "Listing saved. Run the listing-features SQL in Supabase to save location, guests, bedrooms, and features.";
+                  saveMessage.classList.remove("hidden");
+                  setTimeout(() => saveMessage.classList.add("hidden"), 4500);
+                }
+                availabilityForm.reset();
+                return;
+              }
+            }
             if (isMissingImageColumnError(error) && imageUrls.length) {
               if (saveMessage) {
                 saveMessage.textContent = "Pictures need one database setup: add image_url and image_urls columns in Supabase.";
@@ -481,11 +569,11 @@
     if (!publicList || !db) return;
     let { data, error } = await db
       .from("owner_availability")
-      .select("property_name, available_from, available_to, nightly_price, status, image_url, image_urls")
+      .select("property_name, available_from, available_to, nightly_price, status, image_url, image_urls, location, bedrooms, max_guests, features")
       .eq("status", "Available")
       .order("updated_at", { ascending: false })
       .limit(12);
-    if (error && error.message && error.message.includes("image_url")) {
+    if (error && (isMissingImageColumnError(error) || isMissingListingFeatureColumnError(error))) {
       const fallback = await db
         .from("owner_availability")
         .select("property_name, available_from, available_to, nightly_price, status")
@@ -507,8 +595,10 @@
       `</div>` +
       `<div class="p-stack-md">` +
       `<h3 class="font-h3 text-on-surface group-hover:text-primary transition-colors">${escapeHtml(item.property_name)}</h3>` +
+      `<p class="text-outline text-body-sm mt-unit">${escapeHtml(featureSummary({ location: item.location, bedrooms: item.bedrooms, guests: item.max_guests }))}</p>` +
       `<p class="flex items-center gap-1 text-outline text-body-md mb-stack-md mt-unit">` +
       `<span class="material-symbols-outlined text-[16px]">calendar_today</span>${escapeHtml(item.available_from)} - ${escapeHtml(item.available_to)}</p>` +
+      `<div class="flex flex-wrap gap-1.5 mb-stack-md">${featureChips(item.features, 4)}</div>` +
       `<div class="flex items-end justify-between border-t border-surface-container pt-stack-md">` +
       `<div class="flex flex-col"><span class="text-[10px] font-bold text-outline uppercase tracking-wider">Per Night</span>` +
       `<span class="font-h2 text-primary">ETB ${Number(item.nightly_price).toLocaleString()}</span></div>` +

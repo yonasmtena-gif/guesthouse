@@ -42,6 +42,20 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 <option value="Urban Zen Studio"></option>
 </datalist>
 </label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Location / Area</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc]" name="location" placeholder="Example: Bole, Addis Ababa"/>
+</label>
+<div class="grid grid-cols-2 gap-4">
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Bedrooms</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc]" name="bedrooms" type="number" min="0" placeholder="2"/>
+</label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Guests</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc]" name="guests" type="number" min="1" placeholder="4"/>
+</label>
+</div>
 <div class="grid grid-cols-2 gap-4">
 <label class="block">
 <span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Available From</span>
@@ -65,10 +79,14 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 <span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Status</span>
 <select class="mt-1 w-full rounded-xl border-[#e2bebc]" name="status">
 <option>Available</option>
-<option>Unavailable</option>
+<option value="Unavailable">Not Available</option>
 <option>Booked</option>
 <option>Maintenance</option>
 </select>
+</label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Amenities / Features</span>
+<textarea class="mt-1 w-full rounded-xl border-[#e2bebc]" name="features" rows="3" placeholder="WiFi, parking, kitchen, airport pickup"></textarea>
 </label>
 <button class="w-full h-12 rounded-xl bg-[#00696d] text-white font-bold hover:bg-[#004f52] active:scale-[0.99] transition" type="submit">Save Availability</button>
 <p class="hidden rounded-lg bg-[#78fac4]/30 px-3 py-2 text-sm text-[#006c4c]" data-save-message>Availability saved on this device.</p>
@@ -76,20 +94,20 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 <section class="bg-white border border-[#f0eded] rounded-xl shadow-sm overflow-hidden">
 <div class="p-5 border-b border-[#f0eded] flex items-center justify-between">
 <h2 class="font-display text-xl font-bold">Latest Availability</h2>
-<span class="text-xs font-bold text-[#8e706f]">Local preview</span>
+<span class="text-xs font-bold text-[#8e706f]">Live posts</span>
 </div>
 <div class="overflow-x-auto">
 <table class="w-full text-sm">
-<thead class="bg-[#f5f3f3] text-[#5a403f]"><tr><th class="text-left p-4">Property</th><th class="text-left p-4">Dates</th><th class="text-left p-4">Price</th><th class="text-left p-4">Status</th><th class="text-left p-4">Actions</th></tr></thead>
+<thead class="bg-[#f5f3f3] text-[#5a403f]"><tr><th class="text-left p-4">Property</th><th class="text-left p-4">Details</th><th class="text-left p-4">Dates</th><th class="text-left p-4">Price</th><th class="text-left p-4">Status</th><th class="text-left p-4">Actions</th></tr></thead>
 <tbody data-availability-list>
-<tr class="border-t border-[#f0eded]"><td class="p-4 font-semibold">The Bole Skyview Penthouse</td><td class="p-4">May 10 - May 20</td><td class="p-4">ETB 12,500</td><td class="p-4"><span class="px-2 py-1 rounded-full bg-[#78fac4] text-[#006c4c] text-xs font-bold">Available</span></td></tr>
+<tr class="border-t border-[#f0eded]"><td class="p-4 text-[#8e706f]" colspan="6">No availability posted yet.</td></tr>
 </tbody>
 </table>
 </div>
 </section>
 </section>
 </main>
-<script src="supabase-config.js?v=20260503-1835"></script>
-<script src="portal.js?v=20260503-1835"></script>
+<script src="supabase-config.js?v=20260503-1915"></script>
+<script src="portal.js?v=20260503-1915"></script>
 </body>
 </html>
