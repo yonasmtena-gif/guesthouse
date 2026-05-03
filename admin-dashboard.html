@@ -27,13 +27,59 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 <main class="max-w-6xl mx-auto px-5 py-8 space-y-8">
 <section>
 <p class="text-sm font-bold text-[#8e706f] uppercase tracking-wide">Administration</p>
-<h1 class="font-display text-3xl font-bold text-[#b52330] mt-1">Guest and Booking Control</h1>
+<h1 class="font-display text-3xl font-bold text-[#b52330] mt-1">Guest, Host, and Booking Control</h1>
 </section>
 <section class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
 <div class="bg-white border border-[#f0eded] rounded-xl p-5 shadow-sm"><p class="text-xs font-bold text-[#8e706f] uppercase">New Guests</p><p class="text-3xl font-display font-bold mt-2">18</p></div>
 <div class="bg-white border border-[#f0eded] rounded-xl p-5 shadow-sm"><p class="text-xs font-bold text-[#8e706f] uppercase">Active Bookings</p><p class="text-3xl font-display font-bold mt-2" data-booking-count>42</p></div>
 <div class="bg-white border border-[#f0eded] rounded-xl p-5 shadow-sm"><p class="text-xs font-bold text-[#8e706f] uppercase">Pending Deposits</p><p class="text-3xl font-display font-bold mt-2" data-pending-count>7</p></div>
-<div class="bg-white border border-[#f0eded] rounded-xl p-5 shadow-sm"><p class="text-xs font-bold text-[#8e706f] uppercase">Listed Homes</p><p class="text-3xl font-display font-bold mt-2">64</p></div>
+<div class="bg-white border border-[#f0eded] rounded-xl p-5 shadow-sm"><p class="text-xs font-bold text-[#8e706f] uppercase">Host Leads</p><p class="text-3xl font-display font-bold mt-2" data-host-count>0</p></div>
+</section>
+<section class="grid gap-6 lg:grid-cols-[0.75fr,1.25fr]">
+<form class="bg-white border border-[#f0eded] rounded-xl shadow-sm p-5 space-y-4" data-host-form>
+<h2 class="font-display text-xl font-bold">Add Host</h2>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Host name</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="host_name" placeholder="Host full name" required/>
+</label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Email</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="host_email" type="email" placeholder="host@example.com"/>
+</label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Phone</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="host_phone" type="tel" placeholder="+251..."/>
+</label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Property / Unit</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="property_name" placeholder="Example: Bole Apartment - Unit 3" required/>
+</label>
+<label class="block">
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Status</span>
+<select class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="host_status">
+<option>New</option>
+<option>Contacted</option>
+<option>Approved</option>
+<option>Rejected</option>
+</select>
+</label>
+<button class="w-full h-11 rounded-lg bg-[#b52330] text-white font-bold hover:bg-[#92001b] active:scale-[0.99] transition" type="submit">Save Host</button>
+<p class="hidden rounded-lg bg-[#78fac4]/30 px-3 py-2 text-sm text-[#006c4c]" data-host-message>Host saved.</p>
+</form>
+<section class="bg-white border border-[#f0eded] rounded-xl shadow-sm overflow-hidden">
+<div class="p-5 border-b border-[#f0eded] flex items-center justify-between">
+<h2 class="font-display text-xl font-bold">Host Pipeline</h2>
+<span class="text-xs font-bold text-[#8e706f]">Owner leads</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-sm">
+<thead class="bg-[#f5f3f3] text-[#5a403f]"><tr><th class="text-left p-4">Host</th><th class="text-left p-4">Property</th><th class="text-left p-4">Contact</th><th class="text-left p-4">Status</th></tr></thead>
+<tbody data-host-list>
+<tr class="border-t border-[#f0eded]"><td class="p-4 text-[#8e706f]" colspan="4">No hosts added yet.</td></tr>
+</tbody>
+</table>
+</div>
+</section>
 </section>
 <section class="grid gap-6 lg:grid-cols-[1.3fr,0.7fr]">
 <div class="bg-white border border-[#f0eded] rounded-xl shadow-sm overflow-hidden">
