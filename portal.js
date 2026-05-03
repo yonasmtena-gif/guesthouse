@@ -209,10 +209,10 @@
             imageUrls = await uploadListingPhotos(photosInput ? photosInput.files : [], authData.user.id);
           } catch (error) {
             if (saveMessage) {
-              saveMessage.textContent = "Photo upload failed: " + error.message;
+              saveMessage.textContent = "Photo upload failed, saving listing without pictures.";
               saveMessage.classList.remove("hidden");
             }
-            return;
+            imageUrls = [];
           }
           const { error } = await db.from("owner_availability").insert({
             owner_id: authData.user.id,
