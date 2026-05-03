@@ -117,6 +117,16 @@
     return "bg-[#78fac4] text-[#006c4c]";
   }
 
+  function escapeHtml(value) {
+    return String(value || "").replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    }[char]));
+  }
+
   async function renderAvailability() {
     if (!availabilityList) return;
     let saved = JSON.parse(localStorage.getItem("ethiostayAvailability") || "[]");
@@ -137,10 +147,10 @@
     if (!saved.length) return;
     availabilityList.innerHTML = saved.map((item) => (
       `<tr class="border-t border-[#f0eded]">` +
-      `<td class="p-4 font-semibold">${item.property}</td>` +
-      `<td class="p-4">${item.from} - ${item.to}</td>` +
+      `<td class="p-4 font-semibold">${escapeHtml(item.property)}</td>` +
+      `<td class="p-4">${escapeHtml(item.from)} - ${escapeHtml(item.to)}</td>` +
       `<td class="p-4">ETB ${Number(item.price).toLocaleString()}</td>` +
-      `<td class="p-4"><span class="px-2 py-1 rounded-full ${statusClass(item.status)} text-xs font-bold">${item.status}</span></td>` +
+      `<td class="p-4"><span class="px-2 py-1 rounded-full ${statusClass(item.status)} text-xs font-bold">${escapeHtml(item.status)}</span></td>` +
       `</tr>`
     )).join("");
   }
@@ -183,7 +193,7 @@
       }
       await renderAvailability();
       if (saveMessage) {
-        saveMessage.textContent = db ? "Availability saved." : "Availability saved on this device.";
+        saveMessage.textContent = availabilityForm.dataset.saveSuccess || (db ? "Availability saved." : "Availability saved on this device.");
         saveMessage.classList.remove("hidden");
         setTimeout(() => saveMessage.classList.add("hidden"), 2500);
       }
@@ -217,4 +227,35 @@
     }
   }
   renderAdminBookings();
+
+  async function renderPublicAvailability() {
+    const publicList = document.querySelector("[data-public-availability-list]");
+    if (!publicList || !db) return;
+    const { data, error } = await db
+      .from("owner_availability")
+      .select("property_name, available_from, available_to, nightly_price, status")
+      .eq("status", "Available")
+      .order("updated_at", { ascending: false })
+      .limit(12);
+    if (error || !data || !data.length) return;
+    publicList.innerHTML = data.map((item) => (
+      `<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-surface-container group cursor-pointer" onclick="window.location.href='property.html'">` +
+      `<div class="relative aspect-[4/3] overflow-hidden bg-secondary-container">` +
+      `<img alt="${escapeHtml(item.property_name)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_KhMWlEiqFZvJLfZ18JU2pntwt5Nm-SPrvucPzCCxNUoe73N5ox13JLV9zWmFLpiCVHeOek9801Nh76NERlspf3vrCQKY1dvZThix8acrheD7XDkraZhpUWlXucHfv6LSI6uRroBcSx7_VF0hGefxTEumKAsboMT1FxNfvp9l0qa6-ylo-HVl2P9BPdFCJrrJtsnpS2HJdWjtmRqOPLPpWkC1kLKtvIIzU-RYStHt9QAplSuKbBD9Dpq1AEUMTMkUjB95R9hSes8b"/>` +
+      `<div class="absolute top-4 left-4 flex items-center gap-1 px-2.5 py-1 bg-tertiary-fixed text-on-tertiary-fixed rounded-full shadow-lg">` +
+      `<span class="text-[10px] font-bold tracking-wide uppercase">${escapeHtml(item.status)}</span>` +
+      `</div>` +
+      `</div>` +
+      `<div class="p-stack-md">` +
+      `<h3 class="font-h3 text-on-surface group-hover:text-primary transition-colors">${escapeHtml(item.property_name)}</h3>` +
+      `<p class="flex items-center gap-1 text-outline text-body-md mb-stack-md mt-unit">` +
+      `<span class="material-symbols-outlined text-[16px]">calendar_today</span>${escapeHtml(item.available_from)} - ${escapeHtml(item.available_to)}</p>` +
+      `<div class="flex items-end justify-between border-t border-surface-container pt-stack-md">` +
+      `<div class="flex flex-col"><span class="text-[10px] font-bold text-outline uppercase tracking-wider">Per Night</span>` +
+      `<span class="font-h2 text-primary">ETB ${Number(item.nightly_price).toLocaleString()}</span></div>` +
+      `<button class="px-6 py-2 bg-primary text-white font-label-bold rounded-lg hover:bg-primary/90 active:scale-95 transition-all" onclick="event.stopPropagation(); window.location.href='property.html'">Book</button>` +
+      `</div></div></div>`
+    )).join("");
+  }
+  renderPublicAvailability();
 })();
