@@ -209,7 +209,7 @@
             imageUrls = await uploadListingPhotos(photosInput ? photosInput.files : [], authData.user.id);
           } catch (error) {
             if (saveMessage) {
-              saveMessage.textContent = error.message;
+              saveMessage.textContent = "Photo upload failed: " + error.message;
               saveMessage.classList.remove("hidden");
             }
             return;
@@ -226,7 +226,7 @@
           });
           if (error) {
             if (saveMessage) {
-              saveMessage.textContent = error.message;
+              saveMessage.textContent = "Listing save failed: " + error.message;
               saveMessage.classList.remove("hidden");
             }
             return;
