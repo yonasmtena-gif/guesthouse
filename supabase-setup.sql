@@ -33,6 +33,16 @@ create table if not exists public.bookings (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.host_applications (
+  id bigint generated always as identity primary key,
+  host_name text not null,
+  host_email text,
+  host_phone text,
+  property_name text not null,
+  host_status text not null default 'New' check (host_status in ('New', 'Contacted', 'Approved', 'Rejected')),
+  created_at timestamptz not null default now()
+);
+
 create or replace function public.current_user_role()
 returns text
 language sql
@@ -61,6 +71,7 @@ for each row execute function public.touch_updated_at();
 alter table public.profiles enable row level security;
 alter table public.owner_availability enable row level security;
 alter table public.bookings enable row level security;
+alter table public.host_applications enable row level security;
 
 drop policy if exists "Users can read their profile" on public.profiles;
 create policy "Users can read their profile"
@@ -89,6 +100,12 @@ create policy "Admins manage bookings"
 on public.bookings for all
 using (public.current_user_role() = 'admin')
 with check (public.current_user_role() = 'admin');
+
+drop policy if exists "Admins manage host applications" on public.host_applications;
+create policy "Admins manage host applications"
+on public.host_applications for all
+using (public.current_user_role() = 'admin' or lower(auth.jwt() ->> 'email') = 'yonasmtena@gmail.com')
+with check (public.current_user_role() = 'admin' or lower(auth.jwt() ->> 'email') = 'yonasmtena@gmail.com');
 
 -- After creating users in Authentication, add rows like these with real user IDs:
 -- insert into public.profiles (id, email, role, full_name)

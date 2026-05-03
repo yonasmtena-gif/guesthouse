@@ -228,6 +228,92 @@
   }
   renderAdminBookings();
 
+  const hostForm = document.querySelector("[data-host-form]");
+  const hostList = document.querySelector("[data-host-list]");
+  const hostMessage = document.querySelector("[data-host-message]");
+  const hostCount = document.querySelector("[data-host-count]");
+
+  function hostStatusClass(status) {
+    if (status === "Approved") return "bg-[#78fac4] text-[#006c4c]";
+    if (status === "Rejected") return "bg-[#ffdad8] text-[#b52330]";
+    if (status === "Contacted") return "bg-[#8eeff4] text-[#00696d]";
+    return "bg-[#f0eded] text-[#5a403f]";
+  }
+
+  async function renderHosts() {
+    if (!hostList) return;
+    let hosts = JSON.parse(localStorage.getItem("ethiostayHosts") || "[]");
+    if (db) {
+      const { data } = await db
+        .from("host_applications")
+        .select("host_name, host_email, host_phone, property_name, host_status")
+        .order("created_at", { ascending: false })
+        .limit(30);
+      hosts = (data || []).map((item) => ({
+        name: item.host_name,
+        email: item.host_email,
+        phone: item.host_phone,
+        property: item.property_name,
+        status: item.host_status,
+      }));
+    }
+    if (hostCount) hostCount.textContent = String(hosts.length);
+    if (!hosts.length) {
+      hostList.innerHTML = `<tr class="border-t border-[#f0eded]"><td class="p-4 text-[#8e706f]" colspan="4">No hosts added yet.</td></tr>`;
+      return;
+    }
+    hostList.innerHTML = hosts.map((item) => (
+      `<tr class="border-t border-[#f0eded]">` +
+      `<td class="p-4 font-semibold">${escapeHtml(item.name)}</td>` +
+      `<td class="p-4">${escapeHtml(item.property)}</td>` +
+      `<td class="p-4">${escapeHtml(item.email || item.phone || "No contact")}</td>` +
+      `<td class="p-4"><span class="px-2 py-1 rounded-full ${hostStatusClass(item.status)} text-xs font-bold">${escapeHtml(item.status)}</span></td>` +
+      `</tr>`
+    )).join("");
+  }
+
+  if (hostForm) {
+    renderHosts();
+    hostForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const data = new FormData(hostForm);
+      const next = {
+        name: String(data.get("host_name") || "").trim(),
+        email: String(data.get("host_email") || "").trim(),
+        phone: String(data.get("host_phone") || "").trim(),
+        property: String(data.get("property_name") || "").trim(),
+        status: String(data.get("host_status") || "New"),
+      };
+      if (db) {
+        const { error } = await db.from("host_applications").insert({
+          host_name: next.name,
+          host_email: next.email || null,
+          host_phone: next.phone || null,
+          property_name: next.property,
+          host_status: next.status,
+        });
+        if (error) {
+          if (hostMessage) {
+            hostMessage.textContent = error.message;
+            hostMessage.classList.remove("hidden");
+          }
+          return;
+        }
+      } else {
+        const hosts = JSON.parse(localStorage.getItem("ethiostayHosts") || "[]");
+        hosts.unshift(next);
+        localStorage.setItem("ethiostayHosts", JSON.stringify(hosts.slice(0, 30)));
+      }
+      await renderHosts();
+      if (hostMessage) {
+        hostMessage.textContent = db ? "Host saved." : "Host saved on this device.";
+        hostMessage.classList.remove("hidden");
+        setTimeout(() => hostMessage.classList.add("hidden"), 2500);
+      }
+      hostForm.reset();
+    });
+  }
+
   async function renderPublicAvailability() {
     const publicList = document.querySelector("[data-public-availability-list]");
     if (!publicList || !db) return;
