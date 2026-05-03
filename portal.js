@@ -138,12 +138,12 @@
     }
     const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
     const path = `${userId || "admin"}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext || "jpg"}`;
-    const { error } = await db.storage.from("property-photos").upload(path, file, {
+    const { error } = await db.storage.from("guesthouse").upload(path, file, {
       cacheControl: "3600",
       upsert: false,
     });
     if (error) throw error;
-    const { data } = db.storage.from("property-photos").getPublicUrl(path);
+    const { data } = db.storage.from("guesthouse").getPublicUrl(path);
     return data.publicUrl;
   }
 
