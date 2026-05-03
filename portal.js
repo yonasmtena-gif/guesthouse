@@ -379,12 +379,22 @@
   async function renderPublicAvailability() {
     const publicList = document.querySelector("[data-public-availability-list]");
     if (!publicList || !db) return;
-    const { data, error } = await db
+    let { data, error } = await db
       .from("owner_availability")
       .select("property_name, available_from, available_to, nightly_price, status, image_url, image_urls")
       .eq("status", "Available")
       .order("updated_at", { ascending: false })
       .limit(12);
+    if (error && error.message && error.message.includes("image_url")) {
+      const fallback = await db
+        .from("owner_availability")
+        .select("property_name, available_from, available_to, nightly_price, status")
+        .eq("status", "Available")
+        .order("updated_at", { ascending: false })
+        .limit(12);
+      data = fallback.data;
+      error = fallback.error;
+    }
     if (error || !data || !data.length) return;
     publicList.innerHTML = data.map((item) => (
       `<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-surface-container group cursor-pointer" onclick="window.location.href='property.html'">` +
