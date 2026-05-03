@@ -6,3 +6,5 @@ server.err.log
 server.out.log
 .vercel/
 gh-pages-publish/
+
+.vercel
