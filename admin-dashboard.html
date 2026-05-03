@@ -128,6 +128,7 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 <span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Status</span>
 <select class="mt-1 w-full rounded-xl border-[#e2bebc] focus:border-[#b52330] focus:ring-[#b52330]" name="status">
 <option>Available</option>
+<option>Unavailable</option>
 <option>Booked</option>
 <option>Maintenance</option>
 </select>
@@ -135,10 +136,21 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 <button class="w-full h-11 rounded-lg bg-[#b52330] text-white font-bold hover:bg-[#92001b] active:scale-[0.99] transition" type="submit">Post to Website</button>
 <p class="hidden rounded-lg bg-[#78fac4]/30 px-3 py-2 text-sm text-[#006c4c]" data-save-message>Property posted.</p>
 </form>
+<div class="mt-6 border-t border-[#f0eded] pt-5">
+<h3 class="font-display text-lg font-bold mb-3">Posted Availability</h3>
+<div class="overflow-x-auto">
+<table class="w-full text-sm">
+<thead class="bg-[#f5f3f3] text-[#5a403f]"><tr><th class="text-left p-3">Unit</th><th class="text-left p-3">Status</th><th class="text-left p-3">Actions</th></tr></thead>
+<tbody data-availability-list data-availability-compact>
+<tr class="border-t border-[#f0eded]"><td class="p-3 text-[#8e706f]" colspan="3">No availability posted yet.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
 </aside>
 </section>
 </main>
-<script src="supabase-config.js?v=20260503-1815"></script>
-<script src="portal.js?v=20260503-1815"></script>
+<script src="supabase-config.js?v=20260503-1835"></script>
+<script src="portal.js?v=20260503-1835"></script>
 </body>
 </html>
