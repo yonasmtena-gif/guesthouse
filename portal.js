@@ -214,17 +214,33 @@
             }
             imageUrls = [];
           }
-          const { error } = await db.from("owner_availability").insert({
+          const listingPayload = {
             owner_id: authData.user.id,
             property_name: next.property,
             available_from: next.from,
             available_to: next.to,
             nightly_price: next.price,
             status: next.status,
+          };
+          const { error } = await db.from("owner_availability").insert({
+            ...listingPayload,
             image_url: imageUrls[0] || null,
             image_urls: imageUrls,
           });
           if (error) {
+            if (error.message && error.message.includes("image_url")) {
+              const { error: fallbackError } = await db.from("owner_availability").insert(listingPayload);
+              if (!fallbackError) {
+                await renderAvailability();
+                if (saveMessage) {
+                  saveMessage.textContent = "Listing saved without pictures. Add the image columns in Supabase to save photos.";
+                  saveMessage.classList.remove("hidden");
+                  setTimeout(() => saveMessage.classList.add("hidden"), 3500);
+                }
+                availabilityForm.reset();
+                return;
+              }
+            }
             if (saveMessage) {
               saveMessage.textContent = "Listing save failed: " + error.message;
               saveMessage.classList.remove("hidden");
