@@ -33,13 +33,14 @@ body { font-family: Inter, sans-serif; background: #fbf9f8; color: #1b1c1c; }
 <form class="bg-white border border-[#f0eded] rounded-xl shadow-sm p-5 space-y-4" data-availability-form>
 <h2 class="font-display text-xl font-bold">Update Availability</h2>
 <label class="block">
-<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Property</span>
-<select class="mt-1 w-full rounded-xl border-[#e2bebc]" name="property">
-<option>The Bole Skyview Penthouse</option>
-<option>Skyline Heights Bole</option>
-<option>The Garden Villa</option>
-<option>Urban Zen Studio</option>
-</select>
+<span class="text-xs font-bold uppercase tracking-wide text-[#8e706f]">Property / Unit name</span>
+<input class="mt-1 w-full rounded-xl border-[#e2bebc]" name="property" list="property-units" placeholder="Example: Bole Apartment - Unit 1" required/>
+<datalist id="property-units">
+<option value="The Bole Skyview Penthouse"></option>
+<option value="Skyline Heights Bole"></option>
+<option value="The Garden Villa"></option>
+<option value="Urban Zen Studio"></option>
+</datalist>
 </label>
 <div class="grid grid-cols-2 gap-4">
 <label class="block">
